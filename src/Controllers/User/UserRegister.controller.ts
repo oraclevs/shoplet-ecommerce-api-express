@@ -2,7 +2,7 @@ import { Request, Response } from "express-serve-static-core";
 import { UserRegisterRequestBody } from "../../Types/User";
 import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
 import { User } from "../../Schemas/mongoose/User.schema";
-import { PasswordSecure } from "../../Utils/HashPasword";
+import { PasswordSecure } from "../../Utils/HashPassword";
 import { JwtToken } from "../../Utils/Token";
 
 
@@ -41,18 +41,18 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         await NewUser.save()
         // getting the user id 
         const UserIdInFromDB = await User.findOne({ Email: data.Email }, '_id')
-        const UserId = UserIdInFromDB?._id.toString()
+        const UserId = UserIdInFromDB?._id.toString() as string
         console.log(UserId, 'userId')
         //
         console.log(user)
         // Creating the Access and Refresh Token
         const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId } }, "300s")
-        await User.findByIdAndUpdate(UserId,{ AuthToken: RefreshToken })
-        const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId } }, "5s")
-        console.log(RefreshToken,AccessToken)
+        await User.findByIdAndUpdate(UserId, { AuthToken: RefreshToken })
+        const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId } }, "120s")
+        console.log(RefreshToken, AccessToken)
         // 
         //  send email verification
-        res.status(201).json({created: true,msg:'new User created',AccessToken})
+        res.status(201).json({ created: true, msg: 'new User created', AccessToken })
     } catch (error) {
         console.error(error, 'error from controller')
         res.status(500).json({ error: error })

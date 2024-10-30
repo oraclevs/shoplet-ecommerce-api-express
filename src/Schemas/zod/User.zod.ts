@@ -8,3 +8,7 @@ export const RegisterRequestBody = z.object({
     Email: z.string().min(1, 'This email field is required').email('Input a valid email address'),
     Password: z.string().min(8, 'Your Password Should be at least 8 characters')
 })
+export const LoginRequestBody = z.object({
+    Email: z.string().min(1, 'This email field is required').email('Input a valid email address'),
+    Password: z.string().min(8, 'Your Password Should be at least 8 characters')
+})

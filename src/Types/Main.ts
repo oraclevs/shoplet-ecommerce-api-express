@@ -1,5 +1,7 @@
 
 
 
-
-export type JwtPayloadType = { Type: 'AccessToken' | 'RefreshToken', Data: object }
+export type JwtPayloadType = {
+    Type: 'AccessToken' | 'RefreshToken',
+    Data: { UserId: string }
+}

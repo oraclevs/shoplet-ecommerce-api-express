@@ -13,7 +13,9 @@ Route.get('/allusers', GetAllUsers)
 
 
 // user get routes to a single users from db
-Route.get('/user/:id',GetAllUsers)
+Route.get('/user/:id', GetAllUsers)
+
+
 
 
 

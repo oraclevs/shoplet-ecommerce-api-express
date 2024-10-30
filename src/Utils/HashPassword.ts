@@ -7,9 +7,9 @@ export class PasswordSecure{
         const hashed = hash(password, salt);
         return hashed
     }
-   async ComparePassWord(hashFromDB:string,Password:string) {
-       const hashed = await this.HashPassword(Password)
-        const Valid:boolean = await compare(hashFromDB, hashed); 
+    async ComparePassWord(Password: string, hashFromDB: string) {
+    //    const hashed = await this.HashPassword(Password)
+       const Valid: boolean = await compare(Password, hashFromDB); 
         return Valid
     }
 }

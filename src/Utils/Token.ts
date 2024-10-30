@@ -13,4 +13,8 @@ export class JwtToken{
         const IsTokenValid = Jwt.verify(Token, this.SecretKey)
         return IsTokenValid
     }
+    decode(Token:string) {
+        const DecodedToken = Jwt.decode(Token)
+        return DecodedToken
+    }
 }

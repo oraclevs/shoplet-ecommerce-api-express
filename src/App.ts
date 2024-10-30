@@ -6,6 +6,8 @@ import UserAuthRoutes from './Routes/Users/UserAuth.Routes'
 // import { rateLimit } from 'express-rate-limit'
 // import cors from 'cors'
 import cookieParser from 'cookie-parser';
+import {  ProtectUserRoutes } from './Middlewares/Protect.User.route';
+
 
 
 
@@ -39,7 +41,7 @@ app.use(cookieParser())
 //  Authentication Routes for Users
 app.use('/api/vi/users/auth/',UserAuthRoutes)
 // Routes for Users
-app.use('/api/v1/users',UserRoutes)
+app.use('/api/v1/users', ProtectUserRoutes  ,UserRoutes)
 
 
 
