@@ -2,7 +2,7 @@
 import { fromZodError } from "zod-validation-error";
 import { z } from 'zod'
 import { RegisterReqBodyValidationReturnType, UserRegisterRequestBody,LoginReqBodyValidationReturnType,UserLoginRequestBody } from "../Types/User";
-import { RegisterRequestBody,LoginRequestBody } from "../Schemas/zod/User.zod";
+import { RegisterRequestBody, LoginRequestBody, EmailValidationRequestBody } from "../Schemas/zod/User.zod";
 
 
 export class UserAuthInputValidator{
@@ -65,6 +65,40 @@ export class UserAuthInputValidator{
                     Email: "",
                     Password: "",
                 }
+            }
+            return UserInputDefault
+        }
+    }
+    EmailVerificationInput(Code: number) {
+        interface EmailValidationReturn{
+            success: boolean,
+            CodeFromUser: number,
+            ErrorMessage?: object;
+        }
+        try {
+            const Data = EmailValidationRequestBody.parse({ Code });
+            const UserInput: EmailValidationReturn = {
+                success: true,
+                CodeFromUser: Data.Code
+            }
+            return UserInput
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const validationError = fromZodError(err);
+                const errorObject = validationError.details.reduce((acc: Record<string, any>, error) => {
+                    acc[error.path.join('.')] = error.message;
+                    return acc;
+                }, {});
+                const userInputErrors: EmailValidationReturn = {
+                    success: false,
+                    CodeFromUser: -1,
+                    ErrorMessage: errorObject
+                }
+                return userInputErrors
+            }
+            const UserInputDefault: EmailValidationReturn = {
+                success: false,
+                CodeFromUser:-1
             }
             return UserInputDefault
         }

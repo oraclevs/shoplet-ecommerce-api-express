@@ -19,7 +19,7 @@ function GetToken(req: Request, res: Response, next: NextFunction) {
         return Token
     }
     else {
-        throw new Error('no token found in Headers')
+        throw new Error('no token found ')
     }
 }
 
@@ -53,7 +53,7 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
                 console.log(RefreshToken, 'Token from DB')
                 const { IsValidToken } = isTokenValid(req, res, next, RefreshToken)
                 if (IsValidToken) {
-                    const AccessToken =  new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId: DecodedToken.Data.UserId } }, "120s")
+                    const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId: DecodedToken.Data.UserId } }, process.env.ACCESS_TOKEN_EXPIRE_TIME as string)
                     res.status(200).json({ AccessToken })
                 } else {
                     throw { error: "Unauthorized Invalid Token" }
@@ -75,22 +75,29 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
 
 
 //  Middleware ware  function that sits between the the route and the controller to protect the route
-export async function ProtectUserRoutes(req: Request, res: Response, next: NextFunction) {
+export async function ProtectUserRoutes(req:Request, res: Response, next: NextFunction) {
     try {
         const Token: string = GetToken(req, res, next);
         const { IsValidToken } = isTokenValid(req, res, next, Token)
+        interface MyPayLoad extends JwtPayload, JwtPayloadType { }
+        const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
         if (IsValidToken) {
+            req.body.UserID = DecodedToken.Data.UserId
             next()
         } else {
-            interface MyPayLoad extends JwtPayload, JwtPayloadType { }
-            const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
             console.log(DecodedToken)
             if (DecodedToken.Type === 'AccessToken') {
                 res.status(401).json({ error: "Unauthorized invalid token" })
             }
         }
     } catch (error) {
-        res.status(500).send({ error })
+        if (error instanceof Error) {
+            console.log(error, 'from error protect route')
+            res.status(401).json({ error: error.message })
+        } else {
+            res.status(401).json({ error })
+        } 
+       
     }
 }
 

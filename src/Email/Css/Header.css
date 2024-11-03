@@ -1,0 +1,43 @@
+.headerSection {
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.headerSection .imageHeader {
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.headerSection .imageHeader img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.textHeader {
+    color: white;
+    /* background-color:; */
+    width: 90%;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    /* padding-left: 20px; */
+    z-index: 30;
+    margin-top: 20px;
+
+}
+
+.textHeader h1 {
+    font-size: 4rem;
+    padding-bottom: 8px;
+    color: lightskyblue;
+}
+
+.textHeader p {
+    font-size: 1.3rem;
+    color: white;
+
+}

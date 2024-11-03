@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail</title>
+    <style>
+      * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    max-width: 800px;
+    background-color: black!important;
+    /* background: url("https: //i.postimg.cc/sf84ZxDJ/b562fa70-8e3e-46de-9a8b-495b1ea3b9e5.jpg"); */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    height: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+main {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+
+.messageText {
+    width: 100%;
+    padding-left: 4%;
+    padding-right: 4%;
+    font-size: 20px;
+    line-height: 2;
+    margin-top: 4rem;
+    font-size: 17px;
+    text-align: justify;
+    font-weight: 600;
+}
+.messageText p{
+    color: white!important;
+}
+.greeting{
+    margin-bottom: 30px;
+}
+.messageTo{
+    line-height: 2;
+}
+@media screen and (max-width:450px) {
+    /* .headerSection {
+        max-width: 4;
+    }
+
+    .headerSection .imageHeader {
+        max-width: 450px;
+    }
+
+    .headerSection .textHeader {
+        max-width: 100%;
+    } */
+}.headerSection {
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.headerSection .imageHeader {
+    height: 350px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.headerSection .imageHeader img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.textHeader {
+    color: white;
+    /* background-color:; */
+    width: 90%;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    /* padding-left: 20px; */
+    z-index: 30;
+    margin-top: 20px;
+
+}
+
+.textHeader h1 {
+    font-size: 4rem;
+    padding-bottom: 8px;
+    color: lightskyblue;
+}
+
+.textHeader p {
+    font-size: 1.3rem;
+    color: white;
+
+}
+    </style>
+  </head>
+  <body> 
+    <main> 
+      <div class="headerSection"> 
+        <div class="imageHeader"><img src="https://i.postimg.cc/yNHdv7tw/African-woman-with-colorful-shopping.jpg" alt="" srcset=""></div>
+      </div>
+      <div class="textHeader">
+        <h1>Shoplet </h1>
+        <p>Get your favorite product at your doorstep with one click.</p>
+      </div>
+      <div class="messageText"> 
+        <p>Hey , </p>
+        <p>
+          Welcome to Shoplet your ultimate destination for all things shopping! We're thrilled to have you with us and can't wait for you to explore our vast range of products.
+          
+        </p><br>
+        <p>Whether you're looking for the latest fashion, must-have gadgets, or something special to spruce up your home, Shoplet has it all. Plus, our exclusive deals and offers are just the beginning of the amazing perks you'll enjoy as part of the Shoplet community.</p><br>
+        <p>
+          See you around,
+          The Shoplet Team at Shoplet.
+        </p>
+      </div>
+    </main>
+  </body>
+</html>

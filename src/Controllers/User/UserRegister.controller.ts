@@ -4,8 +4,8 @@ import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { PasswordSecure } from "../../Utils/HashPassword";
 import { JwtToken } from "../../Utils/Token";
-
-
+import { EmailSender } from "../../Email/SendMail";
+import { generateAndSaveVerificationCode } from "./EmailVerification.controllers";
 
 
 
@@ -14,6 +14,7 @@ import { JwtToken } from "../../Utils/Token";
 
 export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>, res: Response) => {
     try {
+        const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env 
         // Validating User Input from req.body
         const { success, data } = new UserAuthInputValidator().validateRegisterInput(req.body);
         if (!success) {
@@ -40,18 +41,27 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         })
         await NewUser.save()
         // getting the user id 
-        const UserIdInFromDB = await User.findOne({ Email: data.Email }, '_id')
-        const UserId = UserIdInFromDB?._id.toString() as string
+        const UserFromDB = await User.findOne({ Email: data.Email }, { _id: 1, FullName: 1,Email:1 })
+        const UserId = UserFromDB?._id.toString() as string
         console.log(UserId, 'userId')
         //
         console.log(user)
+        console.log(UserFromDB?.FullName)
         // Creating the Access and Refresh Token
-        const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId } }, "300s")
+        const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId } }, REFRESH_TOKEN_EXPIRE_TIME as string)
         await User.findByIdAndUpdate(UserId, { AuthToken: RefreshToken })
-        const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId } }, "120s")
+        const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId } }, ACCESS_TOKEN_EXPIRE_TIME as string)
         console.log(RefreshToken, AccessToken)
-        // 
-        //  send email verification
+        //generate the Email verification code and save to the database
+        const CodeFromDB = await generateAndSaveVerificationCode(UserId)
+        //  send email verification and Welcome Email
+        // email Details
+        const Receiver = UserFromDB?.Email as string
+        const Subject = "Welcome to Shoplet"
+        const UserName = UserFromDB?.FullName as string
+        const Code = CodeFromDB
+        await new EmailSender().WelcomeEmail({ Receiver, Subject, UserName  })
+        await new EmailSender().ActivationEmail({Receiver,Subject:"Email verification 📧",UserName,Code})
         res.status(201).json({ created: true, msg: 'new User created', AccessToken })
     } catch (error) {
         console.error(error, 'error from controller')

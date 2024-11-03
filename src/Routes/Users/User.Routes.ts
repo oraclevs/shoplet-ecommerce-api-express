@@ -1,22 +1,15 @@
-import  { Router } from "express";
-import { GetAllUsers } from "../../Controllers/User/User.Controller";
+import { Router } from "express";
+
+import { GetNewVerificationCode, VerifyEmail } from "../../Controllers/User/EmailVerification.controllers";
 
 
 const Route = Router();
 
 
-
-
-
-// user get routes to all users from db
-Route.get('/allusers', GetAllUsers)
-
-
-// user get routes to a single users from db
-Route.get('/user/:id', GetAllUsers)
-
-
-
+// Email verification
+//  get route is to the a new email verification code to  the user email address
+// and the post route is to send  the code for the email verification and verify the user email
+Route.route('/emailverification').get(GetNewVerificationCode).post(VerifyEmail)
 
 
 export default Route

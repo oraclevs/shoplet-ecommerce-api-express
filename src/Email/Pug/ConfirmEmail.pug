@@ -1,0 +1,38 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title ConfirmEmail 
+        style 
+            include ../Css/Header.css
+            include ../Css/ConfirmEmail.css
+    body 
+        main 
+            include Header
+            div.textHeader
+                    h1 Shoplet 
+                    p Get your favorite product at your doorstep with one click.
+            div.ConfirmCodeContainer 
+                div 
+                    p.greeting Dear #{UserName}, 
+                    p.welcomeMessage
+                       | Welcome to Shoplet! We’re thrilled to have you on board. To get started with your Shoplet journey, please activate your account by with the Code below:
+                    div.activationCode
+                       p Activation Code: #{Code}
+                        
+                    p.activationDetails
+                        |Activating your account will allow you to:
+                        ol.list
+                            li Track your orders in real-time 📦
+
+                            li Receive personalized recommendations 🌟
+
+                            li Enjoy exclusive deals and offers 🎁
+
+                    p If you didn’t create this account, please ignore this email.
+
+                    p We can’t wait to bring you the best shopping experience!
+
+                    p Happy Shopping, The Shoplet Team.
+                                            
