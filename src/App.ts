@@ -3,6 +3,7 @@ import Express from "express";
 import ConnectDB from "./Db/ConnectToDB";
 import UserRoutes from "./Routes/Users/User.Routes"
 import UserAuthRoutes from './Routes/Users/UserAuth.Routes'
+import ProductRoutes from './Routes/Products/Products.Routes'
 // import { rateLimit } from 'express-rate-limit'
 // import cors from 'cors'
 import cookieParser from 'cookie-parser';
@@ -28,7 +29,6 @@ const app = Express();
 // })
 
 
-
 // Middlewares
 app.use(Express.json())
 // app.use(limiter)
@@ -41,9 +41,9 @@ app.use(cookieParser())
 //  Authentication Routes for Users
 app.use('/api/vi/users/auth/',UserAuthRoutes)
 // Routes for Users
-app.use('/api/v1/user', ProtectUserRoutes  ,UserRoutes)
-
-
+app.use('/api/v1/user', ProtectUserRoutes,UserRoutes)
+// Routes for Products
+app.use('/api/v1/products/user', ProtectUserRoutes,ProductRoutes)
 
 
 

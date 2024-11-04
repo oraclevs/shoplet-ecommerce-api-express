@@ -36,7 +36,7 @@ const UserSchema = new Schema<UserType>({
     Password: { type: String, required: true },
     PhoneNumber: { type: Number, default: Math.random()*999, unique:true},
     Gender: {type:String},
-    Address: { type:Array<UserAddress>, default: [], },
+    Address: { type:[Object], default: [], },
     Avatar: {type:String, default: "",  },
     AuthToken: { type: String, default: "" },
     Role:{type:String,default:"User"},

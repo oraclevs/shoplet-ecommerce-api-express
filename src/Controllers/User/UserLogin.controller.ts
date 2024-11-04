@@ -4,7 +4,7 @@ import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { PasswordSecure } from "../../Utils/HashPassword";
 import { JwtToken } from "../../Utils/Token";
-import { EmailSender } from "../../Email/SendMail";
+// import { EmailSender } from "../../Email/SendMail";
 // import { getLoginLocation } from "../../Utils/User_Ip_Details";
 
 
@@ -29,8 +29,8 @@ const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env
         console.log('is password correct', IsPasswordCorrect)
         if (IsPasswordCorrect) {
             const UserId = UserFromDb?._id.toString() as string
-            const FullName = UserFromDb?.FullName as string
-            const Email = UserFromDb?.Email as string
+            // const FullName = UserFromDb?.FullName as string
+            // const Email = UserFromDb?.Email as string
             // Creating the Access and Refresh Token
             const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId } }, REFRESH_TOKEN_EXPIRE_TIME as string)
             await User.findByIdAndUpdate(UserId, { AuthToken: RefreshToken })
@@ -39,25 +39,25 @@ const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env
             // sending email to the user to notify the someone has successfully has access to  there account
             // const loginDetails = await getLoginLocation(req);
             // console.log('Login Info:', loginDetails);
-            const Message = `
-                Hi ${FullName},
-                We noticed a new login to your Shoplet account just now.
+            // const Message = `
+            //     Hi ${FullName},
+            //     We noticed a new login to your Shoplet account just now.
 
-                Login Details:
+            //     Login Details:
 
-                Date & Time:{loginDetails.dateTime}
+            //     Date & Time:{loginDetails.dateTime}
 
-                Location: {loginDetails.location}
+            //     Location: {loginDetails.location}
 
-                Device: {loginDetails.device}
+            //     Device: {loginDetails.device}
 
-                If this was you, no further action is needed.
+            //     If this was you, no further action is needed.
 
-                If you didn't log in, please reset your password immediately or contact our support team at Customer Support Email.
+            //     If you didn't log in, please reset your password immediately or contact our support team at Customer Support Email.
 
-                Stay secure, The Shoplet Team`
+            //     Stay secure, The Shoplet Team`
             
-            await new EmailSender().LoginEmail({ Receiver: Email, Subject: "Login Detected", UserName: UserFromDb?.FullName as string,Message })
+            // await new EmailSender().LoginEmail({ Receiver: Email, Subject: "Login Detected", UserName: UserFromDb?.FullName as string,Message })
            res.status(200).json({ msg: 'User Login Successful', AccessToken })
         } else {
             res.status(401).json({ error: "Invalid Email or  password" })
