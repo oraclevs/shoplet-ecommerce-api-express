@@ -7,8 +7,14 @@ export const GetCart = async (req: Request, res: Response) => {
     try {
         const UserID = req.body.UserID;
         const UserCartFromDb = await UsersCart.find({ UserId: UserID }, { Cart: 1, _id: 0 }).populate('Cart')
+        console.log(UserCartFromDb,'user cart from db')
         const UserCart = UserCartFromDb[0]?.Cart
-        res.status(200).json({ Cart: UserCart, length:UserCart.length});
+        console.log(UserCart, 'user cart')
+        if (!UserCart) {
+            res.status(404).json({ error: "Cart Not Found" })
+            return
+        }
+        res.status(200).json({ Cart: UserCart, length: UserCart.length });
     } catch (error) {
         if (error instanceof Error) {
             res.status(500).json({ error: error.message });
@@ -21,9 +27,13 @@ export const SaveCart = async (req: Request, res: Response) => {
     try {
         // get the userID
         const UserID = req.body.UserID;
-        const Cart = req.body.Cart; // an array of products IDs
+        const Cart: string[] = req.body.Cart; // an array of products IDs
         console.log(UserID)
         console.log("Cart", Cart)
+        if (!Cart) {
+            res.status(400).json({ Error: "Could not find the Cart Array in the body" })
+            return
+        }
         // Validate the product ID in the cart array to make sure all of them are valid products IDs and are still in the database
         const InvalidProductID: string[] = []
         const ValidProductID: string[] = []
