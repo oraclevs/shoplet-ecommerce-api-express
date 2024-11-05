@@ -39,7 +39,7 @@ app.use(cookieParser())
 
 
 //  Authentication Routes for Users
-app.use('/api/vi/users/auth/',UserAuthRoutes)
+app.use('/api/v1/users/auth/',UserAuthRoutes)
 // Routes for Users
 app.use('/api/v1/user', ProtectUserRoutes,UserRoutes)
 // Routes for Products

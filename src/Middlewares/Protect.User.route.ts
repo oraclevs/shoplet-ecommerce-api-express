@@ -15,7 +15,6 @@ function GetToken(req: Request, res: Response, next: NextFunction) {
     const authorizationHeader = req.headers['authorization'];
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
         const Token = authorizationHeader.substring(7);
-        console.log(Token, 'from get token')
         return Token
     }
     else {
@@ -26,9 +25,7 @@ function GetToken(req: Request, res: Response, next: NextFunction) {
 // check if  the token is valid
 function isTokenValid(req: Request, res: Response, next: NextFunction, Token: string) {
     try {
-        console.log(Token)
-        const IsValidToken = new JwtToken().verify(Token)
-        console.log(IsValidToken, 'Token from middleware')
+        new JwtToken().verify(Token)
         return { IsValidToken: true }
     } catch (err) {
         return { IsValidToken: false }
@@ -42,15 +39,12 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
         if (!IsValidToken) {
             interface MyPayLoad extends JwtPayload, JwtPayloadType { }
             const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
-            console.log(DecodedToken.Type)
             if (!DecodedToken || !DecodedToken.Data || !DecodedToken.Data.UserId) {
-                console.log('DecodedToken null or empty')
                 throw new TypeError('Invalid token data');
             }
             if (DecodedToken.Type === 'AccessToken') {
                 const TokenFromDB = await User.findById(DecodedToken.Data.UserId, { AuthToken: 1, _id: 0 })
                 const RefreshToken = TokenFromDB?.AuthToken as string
-                console.log(RefreshToken, 'Token from DB')
                 const { IsValidToken } = isTokenValid(req, res, next, RefreshToken)
                 if (IsValidToken) {
                     const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId: DecodedToken.Data.UserId } }, process.env.ACCESS_TOKEN_EXPIRE_TIME as string)
@@ -64,7 +58,6 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.log(error, 'from error l')
             res.status(401).json({ error: error.message })
         } else {
             res.status(401).json({ error })
@@ -85,14 +78,12 @@ export async function ProtectUserRoutes(req:Request, res: Response, next: NextFu
             req.body.UserID = DecodedToken.Data.UserId
             next()
         } else {
-            console.log(DecodedToken)
             if (DecodedToken.Type === 'AccessToken') {
                 res.status(401).json({ error: "Unauthorized invalid token" })
             }
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.log(error, 'from error protect route')
             res.status(401).json({ error: error.message })
         } else {
             res.status(401).json({ error })
@@ -111,7 +102,6 @@ export async function LogoutUser(req:Request,res:Response,next:NextFunction) {
         }
         interface MyPayLoad extends JwtPayload, JwtPayloadType { }
         const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
-        console.log(DecodedToken)
         if (DecodedToken.Type != 'AccessToken') {
             res.status(401).json({ error: 'Invalid Token' })
         }
@@ -119,7 +109,6 @@ export async function LogoutUser(req:Request,res:Response,next:NextFunction) {
         await User.findByIdAndUpdate(DecodedToken.Data.UserId, { AuthToken: " " })
         res.status(200).json({msg:'User is successfully Logged out'})
     } catch (error) {
-        console.log(error)
         res.status(500).json({error})
     }
 }
