@@ -1,11 +1,11 @@
-import { Request, Response } from "express-serve-static-core"
+import { CustomRequest,CustomResponse } from '../../Types/Main';
 import { Types } from 'mongoose'
 import { UsersWishList } from "../../Schemas/mongoose/Wishlist.schema";
 
 // controller to get the user's cart from the database
-export const GetWishlist = async (req: Request, res: Response) => {
+export const GetWishlist = async (req: CustomRequest, res: CustomResponse) => {
     try {
-        const UserID = req.body.UserID;
+        const UserID = req.UserID;
         const UserWishListFromDb = await UsersWishList.find({ UserId: UserID }, { Wishlist: 1, _id: 0 }).populate('Wishlist')
         const UserWishlist = UserWishListFromDb[0]?.Wishlist
         if (!UserWishlist) {
@@ -21,10 +21,10 @@ export const GetWishlist = async (req: Request, res: Response) => {
     }
 }
 // controller to save the user cart to database
-export const SaveWishList = async (req: Request, res: Response) => {
+export const SaveWishList = async (req: CustomRequest, res: CustomResponse) => {
     try {
         // get the userID
-        const UserID = req.body.UserID;
+        const UserID = req.UserID;
         const WishList:string[] = req.body.Wishlist; // an array of products IDs
         console.log(UserID)
         console.log("wishList", WishList)

@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import {  ProtectUserRoutes } from './Middlewares/Protect.User.route';
 
 
-
+// TODO: create a checkout,paymentSuccess And PaymentCancel route and payment and checkout  controller
 
 
 dotenv.config({path:'src/.env'})
@@ -30,10 +30,10 @@ const app = Express();
 
 
 // Middlewares
+app.use(Express.urlencoded({ extended: true }))
 app.use(Express.json())
 // app.use(limiter)
 // app.use(cors({origin:"",credentials:true}))
-app.use(Express.urlencoded({ extended: false }))
 app.use(cookieParser())
 
 

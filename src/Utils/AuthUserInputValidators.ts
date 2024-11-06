@@ -2,7 +2,8 @@
 import { fromZodError } from "zod-validation-error";
 import { z } from 'zod'
 import { RegisterReqBodyValidationReturnType, UserRegisterRequestBody,LoginReqBodyValidationReturnType,UserLoginRequestBody } from "../Types/User";
-import { RegisterRequestBody, LoginRequestBody, EmailValidationRequestBody } from "../Schemas/zod/User.zod";
+import { RegisterRequestBody, LoginRequestBody, EmailValidationRequestBody, AddressValidationRequestBody } from "../Schemas/zod/User.zod";
+import { UserAddress } from './../Types/User';
 
 
 export class UserAuthInputValidator{
@@ -103,4 +104,43 @@ export class UserAuthInputValidator{
             return UserInputDefault
         }
     }
+    UserAddressValidation(Address: UserAddress) {
+        interface UserAddressValidationReturn {
+            Success: boolean,
+            data: UserAddress
+       }
+        try {
+            const Data = AddressValidationRequestBody.parse(Address);
+            const UserInput: UserAddressValidationReturn  = {
+                Success: true,
+                data: Data
+            }
+            return UserInput
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const validationError = fromZodError(err);
+                const errorObject = validationError.details.reduce((acc: Record<string, any>, error) => {
+                    acc[error.path.join('.')] = error.message;
+                    return acc;
+                }, {});
+                const userInputErrors:UserAddressValidationReturn  = {
+                    Success: false,
+                    data: errorObject  as UserAddress
+                }
+                return userInputErrors
+            }
+            const UserInputDefault:UserAddressValidationReturn  = {
+                Success: false,
+                data: {
+                    Address: "",
+                    Country: "",
+                    State: "",
+                    ZipCode: "",
+                }
+            }
+            return UserInputDefault
+        }
+    }
+
 }
+

@@ -3,7 +3,7 @@ import { JwtToken } from "../Utils/Token";
 import { JwtPayload } from "jsonwebtoken";
 import { JwtPayloadType } from "../Types/Main";
 import { User } from "../Schemas/mongoose/User.schema";
-
+import { CustomRequest } from "../Types/Main";
 
 
 
@@ -67,15 +67,16 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
 
 
 
+
 //  Middleware ware  function that sits between the the route and the controller to protect the route
-export async function ProtectUserRoutes(req:Request, res: Response, next: NextFunction) {
+export async function ProtectUserRoutes(req: CustomRequest, res: Response, next: NextFunction) {
     try {
         const Token: string = GetToken(req, res, next);
         const { IsValidToken } = isTokenValid(req, res, next, Token)
         interface MyPayLoad extends JwtPayload, JwtPayloadType { }
         const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
         if (IsValidToken) {
-            req.body.UserID = DecodedToken.Data.UserId
+            req.UserID = DecodedToken.Data.UserId
             next()
         } else {
             if (DecodedToken.Type === 'AccessToken') {
@@ -98,7 +99,8 @@ export async function LogoutUser(req:Request,res:Response,next:NextFunction) {
         const Token: string = GetToken(req, res, next);
         const { IsValidToken } = isTokenValid(req, res, next, Token)
         if (!IsValidToken) {
-            res.status(401).json({error: 'Invalid Token'})
+            res.status(401).json({ error: 'Invalid Token' })
+            return
         }
         interface MyPayLoad extends JwtPayload, JwtPayloadType { }
         const DecodedToken = new JwtToken().decode(Token) as MyPayLoad

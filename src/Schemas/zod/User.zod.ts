@@ -20,3 +20,10 @@ export const EmailValidationRequestBody = z.object({
 
 })
 
+export const AddressValidationRequestBody = z.object({
+    Address: z.string(),
+    Country: z.string(),
+    State: z.string(),
+    ZipCode: z.string()
+})
+

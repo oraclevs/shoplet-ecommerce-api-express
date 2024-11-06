@@ -63,6 +63,7 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         await new EmailSender().WelcomeEmail({ Receiver, Subject, UserName  })
         await new EmailSender().ActivationEmail({Receiver,Subject:"Email verification 📧",UserName,Code})
         res.status(201).json({ created: true, msg: 'new User created', AccessToken })
+        return
     } catch (error) {
         console.error(error, 'error from controller')
         res.status(500).json({ error: error })

@@ -1,4 +1,4 @@
-import { Request, Response } from "express-serve-static-core";
+import { CustomRequest,CustomResponse } from "../../Types/Main";
 import { VerificationCode } from "../../Schemas/mongoose/EmailVerification.schema";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { EmailSender } from "../../Email/SendMail";
@@ -15,9 +15,9 @@ export async function generateAndSaveVerificationCode(userId: string) {
 }
 
 
-export const GetNewVerificationCode = async (req: Request, res: Response) => {
+export const GetNewVerificationCode = async (req: CustomRequest, res: CustomResponse) => {
     try {
-        const UserID = req.body.UserID as string
+        const UserID = req.UserID as string
         console.log(UserID)
         const UserEmailFromDB = await User.findById(UserID, { Email: 1, _id: 0, FullName: 1 })
         console.log(UserEmailFromDB)
@@ -32,9 +32,9 @@ export const GetNewVerificationCode = async (req: Request, res: Response) => {
         res.status(500).json({ success: false, msg: error })
     }
 }
-export const VerifyEmail = async (req: Request, res: Response) => {
+export const VerifyEmail = async (req: CustomRequest, res: CustomResponse) => {
     try {
-        const UserID = req.body.UserID as string
+        const UserID = req.UserID as string
         const Data = new UserAuthInputValidator().EmailVerificationInput(req.body.Code)
         console.log(UserID, Data)
         if (!Data.success) {

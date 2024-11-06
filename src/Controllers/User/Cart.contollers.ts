@@ -1,11 +1,14 @@
-import { Request, Response } from "express-serve-static-core"
+
 import { Types } from 'mongoose'
 import { UsersCart } from "../../Schemas/mongoose/Cart.schema";
+import { CustomRequest, CustomResponse } from "../../Types/Main";
+
+
 
 // controller to get the user's cart from the database
-export const GetCart = async (req: Request, res: Response) => {
+export const GetCart = async (req: CustomRequest, res: CustomResponse) => {
     try {
-        const UserID = req.body.UserID;
+        const UserID = req.UserID;
         const UserCartFromDb = await UsersCart.find({ UserId: UserID }, { Cart: 1, _id: 0 }).populate('Cart')
         console.log(UserCartFromDb,'user cart from db')
         const UserCart = UserCartFromDb[0]?.Cart
@@ -23,10 +26,10 @@ export const GetCart = async (req: Request, res: Response) => {
     }
 }
 // controller to save the user cart to database
-export const SaveCart = async (req: Request, res: Response) => {
+export const SaveCart = async (req: CustomRequest, res: CustomResponse) => {
     try {
         // get the userID
-        const UserID = req.body.UserID;
+        const UserID = req.UserID;
         const Cart: string[] = req.body.Cart; // an array of products IDs
         console.log(UserID)
         console.log("Cart", Cart)

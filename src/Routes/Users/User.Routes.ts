@@ -1,12 +1,12 @@
 import { Router } from "express";
-
 import { GetNewVerificationCode, VerifyEmail } from "../../Controllers/User/EmailVerification.controllers";
 import { GetCart, SaveCart } from "../../Controllers/User/Cart.contollers";
 import { GetWishlist, SaveWishList } from "../../Controllers/User/Wishlist.contollers";
+import { updateProfilePicture } from "../../Controllers/User/UpdateUserprofile.controller";
+import { UpdateUserProfileDetails } from "../../Controllers/User/UpdateUserProfileDetails.controllers";
 
 
 const Route = Router();
-
 
 // Email verification
 //  get route is to the a new email verification code to  the user email address
@@ -16,5 +16,8 @@ Route.route('/emailverification').get(GetNewVerificationCode).post(VerifyEmail)
 Route.route('/cart').get(GetCart).post(SaveCart)
 // WishList Route
 Route.route('/wishlist').get(GetWishlist).post(SaveWishList)
+// Update user profilePicture route
+Route.patch('/updateuserprofilepicture', updateProfilePicture)
+Route.patch('/updateuserprofiledetails',UpdateUserProfileDetails)
 
 export default Route
