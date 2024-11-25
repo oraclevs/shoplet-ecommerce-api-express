@@ -1,4 +1,4 @@
-import { Request,Response } from "express-serve-static-core";
+import { Request,Response, } from "express-serve-static-core";
 
 
 export type JwtPayloadType = {
@@ -6,5 +6,5 @@ export type JwtPayloadType = {
     Data: { UserId: string }
 }
 
-export interface CustomRequest extends Request { UserID?: string; }
+export interface CustomRequest extends Request { UserID?: string; rawBody?: Buffer }
 export interface CustomResponse extends Response {}

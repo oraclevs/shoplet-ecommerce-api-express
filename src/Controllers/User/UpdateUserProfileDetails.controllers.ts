@@ -1,7 +1,7 @@
 import { User } from "../../Schemas/mongoose/User.schema";
 import { CustomRequest, CustomResponse } from "../../Types/Main";
 import { UserAddress } from "../../Types/User";
-import { UserAuthInputValidator } from './../../Utils/AuthUserInputValidators';
+import { UserAuthInputValidator } from '../../Utils/UserInputValidators';
 
 
 

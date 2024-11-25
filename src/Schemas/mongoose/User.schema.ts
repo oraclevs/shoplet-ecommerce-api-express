@@ -17,7 +17,8 @@ interface UserType  {
     Email: string;
     IsEmailVerified: boolean;
     Password: string;
-    PhoneNumber?: string;
+    PhoneNumber?: string[];
+    StripeCustomerID: string;
     Gender?: 'Male'| 'Female';
     Address?: UserAddress[];
     Avatar?: string;
@@ -34,7 +35,8 @@ const UserSchema = new Schema<UserType>({
     Email: { type: String, required: true, unique: true },
     IsEmailVerified:{type:Boolean, default:false,},
     Password: { type: String, required: true },
-    PhoneNumber: { type: String, default: Math.random()*999, unique:true},
+    PhoneNumber: { type: [String], unique: true },
+    StripeCustomerID: { type: String},
     Gender: {type:String},
     Address: { type:[Object], default: [], },
     Avatar: {type:String, default: "",  },

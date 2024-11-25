@@ -27,3 +27,13 @@ export const AddressValidationRequestBody = z.object({
     ZipCode: z.string()
 })
 
+
+export const UserCheckoutRequestBody = z.array(
+    z.object({
+        id: z.string(),
+        quantity: z.number().positive(),
+        price: z.number().positive().optional(),
+        Name: z.string().optional()
+    })
+)
+

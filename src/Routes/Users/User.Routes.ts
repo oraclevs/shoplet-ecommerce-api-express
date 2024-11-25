@@ -4,6 +4,7 @@ import { GetCart, SaveCart } from "../../Controllers/User/Cart.contollers";
 import { GetWishlist, SaveWishList } from "../../Controllers/User/Wishlist.contollers";
 import { updateProfilePicture } from "../../Controllers/User/UpdateUserprofile.controller";
 import { UpdateUserProfileDetails } from "../../Controllers/User/UpdateUserProfileDetails.controllers";
+import { UserCheckout } from "../../Controllers/User/UserCheckout.controllers";
 
 
 const Route = Router();
@@ -18,6 +19,9 @@ Route.route('/cart').get(GetCart).post(SaveCart)
 Route.route('/wishlist').get(GetWishlist).post(SaveWishList)
 // Update user profilePicture route
 Route.patch('/updateuserprofilepicture', updateProfilePicture)
-Route.patch('/updateuserprofiledetails',UpdateUserProfileDetails)
+Route.patch('/updateuserprofiledetails', UpdateUserProfileDetails)
+
+// User checkOut routes
+Route.post('/checkout',UserCheckout)
 
 export default Route

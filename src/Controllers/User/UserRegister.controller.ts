@@ -1,6 +1,6 @@
 import { Request, Response } from "express-serve-static-core";
 import { UserRegisterRequestBody } from "../../Types/User";
-import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
+import { UserAuthInputValidator } from "../../Utils/UserInputValidators";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { PasswordSecure } from "../../Utils/HashPassword";
 import { JwtToken } from "../../Utils/Token";
@@ -14,7 +14,7 @@ import { generateAndSaveVerificationCode } from "./EmailVerification.controllers
 
 export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>, res: Response) => {
     try {
-        const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env 
+        const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env
         // Validating User Input from req.body
         const { success, data } = new UserAuthInputValidator().validateRegisterInput(req.body);
         if (!success) {
@@ -41,7 +41,7 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         })
         await NewUser.save()
         // getting the user id 
-        const UserFromDB = await User.findOne({ Email: data.Email }, { _id: 1, FullName: 1,Email:1 })
+        const UserFromDB = await User.findOne({ Email: data.Email }, { _id: 1, FullName: 1, Email: 1 })
         const UserId = UserFromDB?._id.toString() as string
         console.log(UserId, 'userId')
         //
@@ -60,8 +60,8 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         const Subject = "Welcome to Shoplet"
         const UserName = UserFromDB?.FullName as string
         const Code = CodeFromDB
-        await new EmailSender().WelcomeEmail({ Receiver, Subject, UserName  })
-        await new EmailSender().ActivationEmail({Receiver,Subject:"Email verification 📧",UserName,Code})
+        await new EmailSender().WelcomeEmail({ Receiver, Subject, UserName })
+        await new EmailSender().ActivationEmail({ Receiver, Subject: "Email verification 📧", UserName, Code })
         res.status(201).json({ created: true, msg: 'new User created', AccessToken })
         return
     } catch (error) {

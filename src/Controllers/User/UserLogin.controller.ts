@@ -1,6 +1,6 @@
 import { Request, Response } from "express-serve-static-core";
 import { UserLoginRequestBody } from "../../Types/User";
-import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
+import { UserAuthInputValidator } from "../../Utils/UserInputValidators";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { PasswordSecure } from "../../Utils/HashPassword";
 import { JwtToken } from "../../Utils/Token";
@@ -12,14 +12,14 @@ import { JwtToken } from "../../Utils/Token";
 
 
 export const LoginUser = async (req: Request<{}, {}, UserLoginRequestBody>, res: Response) => {
-const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env 
+    const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env
     try {
         // validating user input from req.body
         const { success, data } = new UserAuthInputValidator().validateLoginInput(req.body)
         if (!success) {
             throw data
         }
-        const UserFromDb = await User.findOne({ Email: data.Email }, { Email: 1, Password: 1, _id: 1,FullName:1 })
+        const UserFromDb = await User.findOne({ Email: data.Email }, { Email: 1, Password: 1, _id: 1, FullName: 1 })
         if (!UserFromDb?.Email) {
             res.status(401).json({ error: "Invalid Email or Password" })
         }
@@ -53,9 +53,9 @@ const { REFRESH_TOKEN_EXPIRE_TIME, ACCESS_TOKEN_EXPIRE_TIME } = process.env
             //     If you didn't log in, please reset your password immediately or contact our support team at Customer Support Email.
 
             //     Stay secure, The Shoplet Team`
-            
+
             // await new EmailSender().LoginEmail({ Receiver: Email, Subject: "Login Detected", UserName: UserFromDb?.FullName as string,Message })
-           res.status(200).json({ msg: 'User Login Successful', AccessToken })
+            res.status(200).json({ msg: 'User Login Successful', AccessToken })
         } else {
             res.status(401).json({ error: "Invalid Email or  password" })
         }

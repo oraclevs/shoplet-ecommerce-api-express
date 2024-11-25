@@ -1,4 +1,4 @@
-import { LoginRequestBody, RegisterRequestBody } from "../Schemas/zod/User.zod";
+import { LoginRequestBody, RegisterRequestBody,UserCheckoutRequestBody } from "../Schemas/zod/User.zod";
 import { z } from 'zod'
 
 
@@ -21,3 +21,5 @@ export interface UserAddress {
     State: string;
     ZipCode: string;
 }
+
+export type UserCheckoutType =  z.infer<typeof UserCheckoutRequestBody>

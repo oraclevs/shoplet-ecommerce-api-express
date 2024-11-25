@@ -41,6 +41,7 @@ import { Schema, model } from "mongoose";
 ]
 
 interface Products {
+    stripePriceId:string;
     Name: string;
     description: string;
     brand: string;
@@ -61,6 +62,7 @@ interface Products {
 }
 
 const ProductSchema = new Schema<Products>({
+    stripePriceId:{type: String},
     Name: { type: String, required: true },
     description: { type: String, required: true },
     brand: { type: String, required: true },

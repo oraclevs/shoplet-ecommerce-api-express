@@ -7,15 +7,17 @@ import ProductRoutes from './Routes/Products/Products.Routes'
 // import { rateLimit } from 'express-rate-limit'
 // import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import {  ProtectUserRoutes } from './Middlewares/Protect.User.route';
+import { ProtectUserRoutes } from './Middlewares/Protect.User.route';
+// import { syncProductsToStripe } from './Utils/Stripe_price_setup';
+import StripeUserPaymentVerifications from './Routes/Users/stripe.Routes'
+import { CustomRequest } from './Types/Main';
+// import bodyParser from 'body-parser';
 
 
-// TODO: create a checkout,paymentSuccess And PaymentCancel route and payment and checkout  controller
 
+dotenv.config({ path: 'src/.env' })
 
-dotenv.config({path:'src/.env'})
-
-const PORT: number  = parseInt(process.env.PORT as string) || 5000  
+const PORT: number = parseInt(process.env.PORT as string) || 5000
 
 const app = Express();
 
@@ -25,25 +27,33 @@ const app = Express();
 // 	limit: 150, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 // 	standardHeaders: 'draft-7', 
 // 	legacyHeaders: false, 
-	
+
 // })
 
 
 // Middlewares
 app.use(Express.urlencoded({ extended: true }))
-app.use(Express.json())
+app.use(Express.json(
+    {
+        verify: (req: CustomRequest, res, buf) => {
+            req.rawBody = buf
+        }
+    }
+))
 // app.use(limiter)
 // app.use(cors({origin:"",credentials:true}))
 app.use(cookieParser())
 
 
 
+
 //  Authentication Routes for Users
-app.use('/api/v1/users/auth/',UserAuthRoutes)
+app.use('/api/v1/users/auth/', UserAuthRoutes)
 // Routes for Users
-app.use('/api/v1/user', ProtectUserRoutes,UserRoutes)
+app.use('/api/v1/user', ProtectUserRoutes, UserRoutes)
 // Routes for Products
-app.use('/api/v1/products/user', ProtectUserRoutes,ProductRoutes)
+app.use('/api/v1/products/user', ProtectUserRoutes, ProductRoutes)
+app.use('/api/v1/StripeUserPaymentVerification', StripeUserPaymentVerifications)
 
 
 

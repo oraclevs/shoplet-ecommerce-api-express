@@ -1,8 +1,8 @@
-import { CustomRequest,CustomResponse } from "../../Types/Main";
+import { CustomRequest, CustomResponse } from "../../Types/Main";
 import { VerificationCode } from "../../Schemas/mongoose/EmailVerification.schema";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { EmailSender } from "../../Email/SendMail";
-import { UserAuthInputValidator } from "../../Utils/AuthUserInputValidators";
+import { UserAuthInputValidator } from "../../Utils/UserInputValidators";
 
 
 
