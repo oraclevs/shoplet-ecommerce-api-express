@@ -3,7 +3,9 @@ import Express from "express";
 import ConnectDB from "./Db/ConnectToDB";
 import UserRoutes from "./Routes/Users/User.Routes"
 import UserAuthRoutes from './Routes/Users/UserAuth.Routes'
-import ProductRoutes from './Routes/Products/Products.Routes'
+import UserProductRoutes from './Routes/Products/User/Products.Routes'
+import AdminProductRoutes from './Routes/Products/Admin/products.routes'
+import AdminRefreshTokenRoute from './Routes/Admin/Admin_refreshtoken.routes'
 // import { rateLimit } from 'express-rate-limit'
 // import cors from 'cors'
 import cookieParser from 'cookie-parser';
@@ -11,7 +13,8 @@ import { ProtectUserRoutes } from './Middlewares/Protect.User.route';
 // import { syncProductsToStripe } from './Utils/Stripe_price_setup';
 import StripeUserPaymentVerifications from './Routes/Users/stripe.Routes'
 import { CustomRequest } from './Types/Main';
-// import bodyParser from 'body-parser';
+import AdminAuthRoute from './Routes/Admin/AdminAuth.routes'
+import { ProtectAdminRoutes } from './Middlewares/Protect.Admin.route';
 
 
 
@@ -46,14 +49,26 @@ app.use(cookieParser())
 
 
 
-
+// USER ROUTES
 //  Authentication Routes for Users
 app.use('/api/v1/users/auth/', UserAuthRoutes)
 // Routes for Users
 app.use('/api/v1/user', ProtectUserRoutes, UserRoutes)
 // Routes for Products
-app.use('/api/v1/products/user', ProtectUserRoutes, ProductRoutes)
+app.use('/api/v1/products/user', ProtectUserRoutes, UserProductRoutes)
+// Route for Stripe Webhooks(User)
 app.use('/api/v1/StripeUserPaymentVerification', StripeUserPaymentVerifications)
+
+// ADMIN ROUTES
+app.use('/api/v1/admin/auth', AdminAuthRoute)
+// admin product routes
+app.use('/api/v1/products/admin', ProtectAdminRoutes, AdminProductRoutes)
+// admin get refreshed token for admin
+app.use('/api/v1/admin/auth/refreshToken',AdminProductRoutes,AdminRefreshTokenRoute)
+
+
+
+
 
 
 

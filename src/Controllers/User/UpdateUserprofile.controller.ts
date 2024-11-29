@@ -3,25 +3,41 @@ import multer from 'multer'
 import  CustomCloudinary from "../../Utils/Cloudinary.config";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { CleanUpAfterUpload } from "../../Utils/DeleteFiles";
-
+import { MulterStorage } from "../../Utils/Multer";
+import { NextFunction } from "express-serve-static-core";
 
 
 
 // Configure Multer to store files in the 'uploads' directory
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './src/Uploads');
+const Upload = multer({
+    storage: MulterStorage,
+    limits: {
+        fileSize: 5 * 1024 * 1024,
+        files: 5
     },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+    fileFilter: (req, file, cb) => {
+        // Check the file type 
+        if (file.mimetype.startsWith('image/')) {
+            cb(null, true);
+        }
+        else {
+            cb(new Error('Only image files are allowed!'));
+        }
     }
-});
-
-const upload = multer({ storage });
-
+}).single('profilePicture')
 
 export const updateProfilePicture = [
-    upload.single('profilePicture'),
+    (req: CustomRequest, res: CustomResponse, next: NextFunction) => {
+        Upload(req, res, (error) => {
+            if (error) {
+                return res.status(400).json({ error: error.message });
+            } // Check if files are valid images 
+            if (!req.files || req.files.length === 0) {
+                return res.status(400).json({ error: 'Only image files are allowed and at least one file must be uploaded!' });
+            }
+            next()
+        })
+    },
     async (req: CustomRequest, res: CustomResponse) => {
         try {
             // upload the profile to cloudinary

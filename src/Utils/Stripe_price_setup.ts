@@ -1,21 +1,22 @@
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
-import { Product } from '../Schemas/mongoose/Products.schema';
+import { Product,ProductType } from '../Schemas/mongoose/Products.schema';
+
 
 
 dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_API_KEY!);
 
-export async function syncProductsToStripe() {
-    const products = await Product.find({}); // Fetch all products from your database
-    for (const product of products) {
+export async function syncProductsToStripe(productId:string|undefined = undefined) {
+    const stripe = new Stripe(process.env.STRIPE_API_KEY!);
+
+    const SaveToStripe = async (product: ProductType) => {
         if (!product.stripePriceId) {
             // Create a Stripe product and price for each product
             const stripeProduct = await stripe.products.create({
-                name: product.Name,
+                name: product.name,
                 description: product.description,
-                // Other product details...
+
             });
 
             const price = await stripe.prices.create({
@@ -26,9 +27,25 @@ export async function syncProductsToStripe() {
 
             // Update your product in the database with the Stripe price ID
             product.stripePriceId = price.id;
+            // product.UpdatedAt = Date.now();
             await product.save();
         }
     }
+    if (productId === undefined) {
+        const products = await Product.find({});
+        for (const product of products) {
+            SaveToStripe(product)
+        }
+        return// Fetch all products from the database
+    } else {
+        const product = await Product.findOne({ _id: productId });
+        if (product) {
+            SaveToStripe(product)
+        }
+    }
+
+
+
 }
 
 

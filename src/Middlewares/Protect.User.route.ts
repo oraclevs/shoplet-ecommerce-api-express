@@ -11,7 +11,7 @@ import { CustomRequest } from "../Types/Main";
 
 
 // get user token from the header 
-function GetToken(req: Request, res: Response, next: NextFunction) {
+export function GetToken(req: Request, res: Response, next: NextFunction) {
     const authorizationHeader = req.headers['authorization'];
     if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
         const Token = authorizationHeader.substring(7);
@@ -23,7 +23,7 @@ function GetToken(req: Request, res: Response, next: NextFunction) {
 }
 
 // check if  the token is valid
-function isTokenValid(req: Request, res: Response, next: NextFunction, Token: string) {
+export function isTokenValid(req: Request, res: Response, next: NextFunction, Token: string) {
     try {
         new JwtToken().verify(Token)
         return { IsValidToken: true }
@@ -47,7 +47,7 @@ export async function GenerateRefreshToken(req: Request, res: Response, next: Ne
                 const RefreshToken = TokenFromDB?.AuthToken as string
                 const { IsValidToken } = isTokenValid(req, res, next, RefreshToken)
                 if (IsValidToken) {
-                    const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId: DecodedToken.Data.UserId } }, process.env.ACCESS_TOKEN_EXPIRE_TIME as string)
+                    const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId: DecodedToken.Data.UserId },Role:'User' }, process.env.ACCESS_TOKEN_EXPIRE_TIME as string)
                     res.status(200).json({ AccessToken })
                 } else {
                     throw { error: "Unauthorized Invalid Token" }
@@ -75,13 +75,14 @@ export async function ProtectUserRoutes(req: CustomRequest, res: CustomResponse,
         const { IsValidToken } = isTokenValid(req, res, next, Token)
         interface MyPayLoad extends JwtPayload, JwtPayloadType { }
         const DecodedToken = new JwtToken().decode(Token) as MyPayLoad
-        if (IsValidToken) {
-            req.UserID = DecodedToken.Data.UserId
-            next()
-        } else {
-            if (DecodedToken.Type === 'AccessToken') {
-                res.status(401).json({ error: "Unauthorized invalid token" })
+        if (IsValidToken && DecodedToken.Type === 'AccessToken') {
+            if (DecodedToken.Role === 'User') {
+                req.UserID = DecodedToken.Data.UserId
+                next()
             }
+        } else {
+            res.status(401).json({ error: "Unauthorized invalid token" })
+            return
         }
     } catch (error) {
         if (error instanceof Error) {

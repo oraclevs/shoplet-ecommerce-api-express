@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model,Document } from "mongoose";
 
 
 
@@ -42,7 +42,7 @@ import { Schema, model } from "mongoose";
 
 interface Products {
     stripePriceId:string;
-    Name: string;
+    name: string;
     description: string;
     brand: string;
     category: string
@@ -60,10 +60,13 @@ interface Products {
     UpdatedAt: Date;
 
 }
+export interface ProductType extends  Document,Products{}  
+
+    
 
 const ProductSchema = new Schema<Products>({
     stripePriceId:{type: String},
-    Name: { type: String, required: true },
+    name: { type: String, required: true },
     description: { type: String, required: true },
     brand: { type: String, required: true },
     category: { type: String, required: true },

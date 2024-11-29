@@ -30,9 +30,9 @@ export const LoginUser = async (req: Request<{}, {}, UserLoginRequestBody>, res:
             // const FullName = UserFromDb?.FullName as string
             // const Email = UserFromDb?.Email as string
             // Creating the Access and Refresh Token
-            const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId } }, REFRESH_TOKEN_EXPIRE_TIME as string)
+            const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId },Role:'User' }, REFRESH_TOKEN_EXPIRE_TIME as string)
             await User.findByIdAndUpdate(UserId, { AuthToken: RefreshToken })
-            const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId } }, ACCESS_TOKEN_EXPIRE_TIME as string)
+            const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId },Role:'User' }, ACCESS_TOKEN_EXPIRE_TIME as string)
             // sending email to the user to notify the someone has successfully has access to  there account
             // const loginDetails = await getLoginLocation(req);
             // console.log('Login Info:', loginDetails);
