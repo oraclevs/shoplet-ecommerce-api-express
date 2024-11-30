@@ -5,6 +5,7 @@ import { DeleteWishList, GetWishlist, SaveWishList } from "../../Controllers/Use
 import { updateProfilePicture } from "../../Controllers/User/UpdateUserprofile.controller";
 import { UpdateUserProfileDetails } from "../../Controllers/User/UpdateUserProfileDetails.controllers";
 import { UserCheckout } from "../../Controllers/User/UserCheckout.controllers";
+import { ConfirmOrderReceived } from "../../Controllers/User/ConfirmOrderReceived.controller";
 
 
 const Route = Router();
@@ -18,11 +19,11 @@ Route.route('/cart').get(GetCart).post(SaveCart)
 // WishList Route
 Route.route('/wishlist').get(GetWishlist).post(SaveWishList).delete(DeleteWishList)
 Route.route('/wishlist/:id').delete(DeleteWishList)
-// Update user profilePicture route
+// Update user profilePicture and UpdateUserProfileDetails route
 Route.patch('/updateuserprofilepicture', updateProfilePicture)
 Route.patch('/updateuserprofiledetails', UpdateUserProfileDetails)
-
 // User checkOut routes
-Route.post('/checkout',UserCheckout)
-
+Route.post('/checkout', UserCheckout)
+// Confirm Order Received route
+Route.post('/confirmorderreceived', ConfirmOrderReceived)
 export default Route

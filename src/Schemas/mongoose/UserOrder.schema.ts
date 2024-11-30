@@ -11,6 +11,7 @@ interface OrderType {
     AmountPaid: number;
     Shipped: boolean;
     Received: boolean;
+    Delivered: boolean;
     CreatedAt: Date;
     UpdatedAt: Date;
 }
@@ -24,6 +25,7 @@ const OrderSchema = new Schema<OrderType>({
     AmountPaid: { type: Number },
     Shipped: { type: Boolean, default: false },
     Received:{ type: Boolean, default: false },
+    Delivered:{ type: Boolean, default: false },
     CreatedAt: { type: Date, required: true },
     UpdatedAt: { type: Date, required: true },
 })

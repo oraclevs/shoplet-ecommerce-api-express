@@ -5,6 +5,7 @@ import pug from 'pug'
 
 interface WelcomeEmailP { Receiver: string, Subject: string, UserName: string }
 interface LoginEmailP { Receiver: string, Subject: string, UserName: string,Message: string}
+interface CustomEmailP { Receiver: string, Subject: string, UserName: string,Message: string}
 interface EmailActivationEmailP { Receiver: string, Subject: string, UserName: string,Code: number}
 
 export class EmailSender {
@@ -56,6 +57,21 @@ export class EmailSender {
         try {
             
             const html = pug.renderFile('src/Email/Pug/ConfirmEmail.pug', { UserName,Code })
+            const Mail = {
+                from: `"Shoplet 🛒" <${process.env.NODEMAILER_USERNAME}>`, // sender address
+                to: Receiver, // list of receivers
+                subject: Subject, // Subject line
+                html, // html body
+            }
+            const info = await this.transporter.sendMail(Mail);
+            console.log("Message sent: %s", info.messageId);
+        } catch (err) {
+            console.log(err, 'error sending email')
+        }
+    }
+    async CustomEmail({ Receiver, Subject, UserName, Message }: CustomEmailP) {
+        try {
+            const html = pug.renderFile('src/Email/Pug/General.pug', { UserName,Message })
             const Mail = {
                 from: `"Shoplet 🛒" <${process.env.NODEMAILER_USERNAME}>`, // sender address
                 to: Receiver, // list of receivers

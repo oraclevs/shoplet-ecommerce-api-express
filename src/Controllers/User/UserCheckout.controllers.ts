@@ -1,4 +1,5 @@
 
+import { EmailSender } from "../../Email/SendMail";
 import { Product } from "../../Schemas/mongoose/Products.schema";
 import { User } from "../../Schemas/mongoose/User.schema";
 import { UserOrders } from "../../Schemas/mongoose/UserOrder.schema";
@@ -53,7 +54,7 @@ export const UserCheckout = async (req: CustomRequest, res: CustomResponse) => {
             NewListItems.push(productData)
         }
         // check if the customer has a verified Email account
-        const user = await User.findById(req.UserID, { Email: 1, IsEmailVerified: 1, Address: 1, StripeCustomerID: 1 })
+        const user = await User.findById(req.UserID, { Email: 1, IsEmailVerified: 1, Address: 1, StripeCustomerID: 1,FullName:1, })
         console.log("Stripe CustomerID:",user?.StripeCustomerID)
         if (!user?.IsEmailVerified) {
             res.status(403).json({ Error: "Email not verified", msg: "Please verify your email to continue checking out" })
@@ -87,6 +88,12 @@ export const UserCheckout = async (req: CustomRequest, res: CustomResponse) => {
             CreatedAt: new Date(),
             UpdatedAt: new Date()
         }).save()
+        await new EmailSender().CustomEmail({
+            Subject: "Order Created ",
+            Receiver: user.Email,
+            UserName: user.FullName,
+            Message:`Your Order has been  Created Successfully. your payment link is ${PaymentSession.url} click to complete the order`
+        })
         res.status(200).json({ success: true, PaymentLink:PaymentSession.url});
     } catch (error) {
         if (error instanceof Error) {

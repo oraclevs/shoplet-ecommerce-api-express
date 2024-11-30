@@ -11,7 +11,11 @@ export const GetUsersWishList = async (req: CustomRequest, res: CustomResponse) 
     try {
         // get and validate the id in the request params
         ValidateObject_id(req, res)
-        const Wishlist = await UsersWishList.find({ UserId: req.params.id }).populate('Wishlist')
+        const { page, limit } = req.query;
+        const pageNumber = parseInt(page as string) || 1;
+        const PageLimit = parseInt(limit as string) || 10;
+        const PageSkip = (pageNumber - 1) * PageLimit;
+        const Wishlist = await UsersWishList.find({ UserId: req.params.id }).populate('Wishlist').limit(PageLimit).skip(PageSkip)
         res.status(200).json({Wishlist,length:Wishlist.length})
     } catch (error) {
         if (error instanceof Error) {
@@ -30,8 +34,12 @@ export const GetUsersCartList = async (req: CustomRequest, res: CustomResponse) 
     try {
         // Get users cart list
         // get and validate the id in the request params
-        ValidateObject_id(req, res)
-        const Cart = await UsersCart.find({ UserId: req.params.id }).populate('Cart')
+        ValidateObject_id(req, res);
+        const { page, limit } = req.query;
+        const pageNumber = parseInt(page as string) || 1;
+        const PageLimit = parseInt(limit as string) || 10;
+        const PageSkip = (pageNumber - 1) * PageLimit;
+        const Cart = await UsersCart.find({ UserId: req.params.id }).populate('Cart').skip(PageSkip).limit(PageLimit)
         res.status(200).json({Cart})
     } catch (error) {
         if (error instanceof Error) {

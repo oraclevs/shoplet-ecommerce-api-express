@@ -1,13 +1,30 @@
 import { Types } from "mongoose"
 import { CustomRequest, CustomResponse } from "../Types/Main"
 
-export const ValidateObject_id = (req: CustomRequest, res: CustomResponse, ErrorMessage = "ID is not valid") => {
-    const ProductID = req.params.id
+interface ValidateObject_idType {
+    ErrorMessage: string;
+    From: "Params" | "Custom";
+    ID: string;
+}
+
+const Default:ValidateObject_idType = {
+    ErrorMessage: "Invalid ID",
+    From: "Params",
+    ID:"",
+}
+export const ValidateObject_id = (
+    req: CustomRequest,
+    res: CustomResponse,
+    Options: ValidateObject_idType = Default
+) => {
+    const ProductID = Options.From === "Params" ? req.params.id : Options.ID
     console.log(ProductID)
     // validate product ID from req.params.id 
     const isProductIDvalid = Types.ObjectId.isValid(ProductID)
+
     if (!isProductIDvalid) {
-        res.status(404).json({ Error: ErrorMessage })
+        res.status(404).json({ Error:Options.ErrorMessage })
         return
     }
 }
+
