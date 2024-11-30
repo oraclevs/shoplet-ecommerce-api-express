@@ -23,7 +23,16 @@ interface UserType  {
     Address?: UserAddress[];
     Avatar?: string;
     AuthToken?: string;
-    Role:'User'
+    Role: 'User';
+    Blocked: {
+        IsBlocked: boolean;
+        Type: "Permanently" | "Temporary";
+        Reason: string;
+        Duration: {
+            from: Date,
+            to: Date,
+        }
+    };
     CreatedAt: Date;
     UpdatedAt: Date;
 }
@@ -35,15 +44,24 @@ const UserSchema = new Schema<UserType>({
     Email: { type: String, required: true, unique: true },
     IsEmailVerified:{type:Boolean, default:false,},
     Password: { type: String, required: true },
-    PhoneNumber: { type: [String], unique: true },
+    PhoneNumber: { type: [String], default:[]},
     StripeCustomerID: { type: String},
     Gender: {type:String},
-    Address: { type:[Object], default: [], },
+    Address: { type:[Object],},
     Avatar: {type:String, default: "",  },
     AuthToken: { type: String, default: "" },
-    Role:{type:String,default:"User"},
-    CreatedAt: {type:Date, default: Date.now(),required:true },
-    UpdatedAt:{ type:Date, default: Date.now(),required:true },
+    Role: { type: String, default: "User" },
+    Blocked: {
+        IsBlocked: { type: Boolean, default: false },
+        Type: { type: String },
+        Reason: { type: String },
+        Duration:{
+            from: { type: Date },
+            to:{ type: Date}
+        },
+    },
+    CreatedAt: {type:Date, default: new Date(),required:true },
+    UpdatedAt:{ type:Date, default: new Date(),required:true },
 })
 
 

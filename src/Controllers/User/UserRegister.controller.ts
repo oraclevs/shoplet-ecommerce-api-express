@@ -36,8 +36,9 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
             Email: data.Email,
             UserName: data.FullName.toLowerCase().trim(),
             Password: HashedPassword,
-            CreatedAt: Date.now(),
-            UpdatedAt: Date.now()
+            PhoneNumber:[Math.random()*9999999],
+            CreatedAt: new Date(),
+            UpdatedAt: new Date(),
         })
         await NewUser.save()
         // getting the user id 

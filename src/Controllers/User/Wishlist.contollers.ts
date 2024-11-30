@@ -1,6 +1,7 @@
-import { CustomRequest,CustomResponse } from '../../Types/Main';
+import { CustomRequest, CustomResponse } from '../../Types/Main';
 import { Types } from 'mongoose'
 import { UsersWishList } from "../../Schemas/mongoose/Wishlist.schema";
+
 
 // controller to get the user's cart from the database
 export const GetWishlist = async (req: CustomRequest, res: CustomResponse) => {
@@ -25,7 +26,7 @@ export const SaveWishList = async (req: CustomRequest, res: CustomResponse) => {
     try {
         // get the userID
         const UserID = req.UserID;
-        const WishList:string[] = req.body.Wishlist; // an array of products IDs
+        const WishList: string[] = req.body.Wishlist; // an array of products IDs
         console.log(UserID)
         console.log("wishList", WishList)
         if (!WishList) {
@@ -58,5 +59,34 @@ export const SaveWishList = async (req: CustomRequest, res: CustomResponse) => {
             res.status(500).json({ error: error.message });
         }
         res.status(500).json({ error: error });
+    }
+}
+
+
+export const DeleteWishList = async(req: CustomRequest, res: CustomResponse) => {
+    try {
+        // get the id of the product
+        const ProductId = req.params.id
+        // validate the product id to make sure it is valid
+        const isProductIDvalid = Types.ObjectId.isValid(ProductId)
+        if (!isProductIDvalid) {
+            res.status(404).json({ Success: false, Error: "Product ID is not valid" })
+            return
+        }
+        // find product from database
+        console.log(ProductId)
+        const UserWishlistFromDB = await UsersWishList.findOne({ UserId: req.UserID })
+        const UserWishListArray = UserWishlistFromDB?.Wishlist
+        const NewUserWishlist = UserWishListArray?.filter((ID) => ID !=ProductId)
+        console.log(NewUserWishlist)
+        console.log(UserWishListArray)
+        await UsersWishList.updateOne({UserId:req.UserID},{Wishlist:NewUserWishlist},{new:true})
+        res.status(200).json({success:true,msg:"WishList has been successfully deleted"})
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            res.status(500).json({ error });
+        }
     }
 }

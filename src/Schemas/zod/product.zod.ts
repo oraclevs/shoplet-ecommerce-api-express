@@ -1,26 +1,7 @@
 import { z } from 'zod'
 
 
-// interface Products {
-//     stripePriceId: string;
-//     Name: string;
-//     description: string;
-//     brand: string;
-//     category: string
-//     price: number;
-//     currency: string;
-//     stock_quantity: number;
-//     images: string[];
-//     attributes: {
-//         size: string[];
-//         color: string[];
-//         material: string[];
-//     };
-//     reviews: object[];
-//     CreatedAt: Date;
-//     UpdatedAt: Date;
 
-// }
 
 export const ProductZodSchema = z.object({
     name: z.string(),

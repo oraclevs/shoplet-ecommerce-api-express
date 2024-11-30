@@ -66,7 +66,7 @@ export const AddProductToDb = [
                 }
             }
             console.log(ImagesUploadedToCloudinary)
-            const DateCreated  = Date.now() 
+            const DateCreated  = new Date() 
             await new Product({
                 name: data.name,
                 description: data.description,

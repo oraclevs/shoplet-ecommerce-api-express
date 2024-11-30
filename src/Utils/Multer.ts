@@ -8,7 +8,7 @@ export const MulterStorage = multer.diskStorage({
         cb(null, './src/Uploads');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        cb(null, new Date() + '-' + file.originalname);
     },
     
 });

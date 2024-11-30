@@ -6,6 +6,7 @@ import UserAuthRoutes from './Routes/Users/UserAuth.Routes'
 import UserProductRoutes from './Routes/Products/User/Products.Routes'
 import AdminProductRoutes from './Routes/Products/Admin/products.routes'
 import AdminRefreshTokenRoute from './Routes/Admin/Admin_refreshtoken.routes'
+import AdminManageUsersRoute from './Routes/Admin/Users/Admin_users.routes'
 // import { rateLimit } from 'express-rate-limit'
 // import cors from 'cors'
 import cookieParser from 'cookie-parser';
@@ -64,8 +65,9 @@ app.use('/api/v1/admin/auth', AdminAuthRoute)
 // admin product routes
 app.use('/api/v1/products/admin', ProtectAdminRoutes, AdminProductRoutes)
 // admin get refreshed token for admin
-app.use('/api/v1/admin/auth/refreshToken',AdminProductRoutes,AdminRefreshTokenRoute)
-
+app.use('/api/v1/admin/auth/refreshToken', AdminProductRoutes, AdminRefreshTokenRoute)
+// admin route to manage users
+app.use('/api/v1/admin/users', ProtectAdminRoutes, AdminManageUsersRoute)
 
 
 

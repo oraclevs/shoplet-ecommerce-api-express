@@ -84,8 +84,8 @@ export const UserCheckout = async (req: CustomRequest, res: CustomResponse) => {
             orders: data,
             StripeCheckoutId: PaymentSession.id,
             PaymentSuccessful: false,
-            CreatedAt: Date.now(),
-            UpdatedAt: Date.now()
+            CreatedAt: new Date(),
+            UpdatedAt: new Date()
         }).save()
         res.status(200).json({ success: true, PaymentLink:PaymentSession.url});
     } catch (error) {

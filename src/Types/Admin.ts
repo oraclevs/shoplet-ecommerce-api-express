@@ -1,4 +1,4 @@
-import { AdminLoginReqBody } from "../Schemas/zod/Admin.zod";
+import { AdminLoginReqBody,AdminUpdateUserDataReqBody } from "../Schemas/zod/Admin.zod";
 import { z } from 'zod'
 
 
@@ -7,4 +7,11 @@ export type AdminLoginReturnType = {
     success: boolean,
     data: AdminLoginRequestBody,
 }
+
+export type AdminUpdateUserRequestBody = z.infer<typeof AdminUpdateUserDataReqBody>
+export type AdminUpdateUserReturnType = {
+    success: boolean,
+    data: AdminUpdateUserRequestBody,
+}
+
 

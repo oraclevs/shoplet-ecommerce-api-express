@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { GetNewVerificationCode, VerifyEmail } from "../../Controllers/User/EmailVerification.controllers";
 import { GetCart, SaveCart } from "../../Controllers/User/Cart.contollers";
-import { GetWishlist, SaveWishList } from "../../Controllers/User/Wishlist.contollers";
+import { DeleteWishList, GetWishlist, SaveWishList } from "../../Controllers/User/Wishlist.contollers";
 import { updateProfilePicture } from "../../Controllers/User/UpdateUserprofile.controller";
 import { UpdateUserProfileDetails } from "../../Controllers/User/UpdateUserProfileDetails.controllers";
 import { UserCheckout } from "../../Controllers/User/UserCheckout.controllers";
@@ -16,7 +16,8 @@ Route.route('/emailverification').get(GetNewVerificationCode).post(VerifyEmail)
 // Cart Route
 Route.route('/cart').get(GetCart).post(SaveCart)
 // WishList Route
-Route.route('/wishlist').get(GetWishlist).post(SaveWishList)
+Route.route('/wishlist').get(GetWishlist).post(SaveWishList).delete(DeleteWishList)
+Route.route('/wishlist/:id').delete(DeleteWishList)
 // Update user profilePicture route
 Route.patch('/updateuserprofilepicture', updateProfilePicture)
 Route.patch('/updateuserprofiledetails', UpdateUserProfileDetails)

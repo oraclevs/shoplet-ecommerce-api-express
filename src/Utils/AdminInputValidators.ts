@@ -1,12 +1,9 @@
 import { fromZodError } from "zod-validation-error";
 import { z } from "zod";
-import { AdminLoginRequestBody, AdminLoginReturnType } from "../Types/Admin";
-import { AdminLoginReqBody } from "../Schemas/zod/Admin.zod";
+import { AdminLoginRequestBody, AdminLoginReturnType,AdminUpdateUserRequestBody,AdminUpdateUserReturnType } from "../Types/Admin";
+import { AdminLoginReqBody,AdminUpdateUserDataReqBody } from "../Schemas/zod/Admin.zod";
 import { ProductReqBodyReturnType, ProductReqBodyType, UpdateProductReqBodyReturnType, UpdateProductReqBodyType } from "../Types/product";
 import { ProductZodSchema,UpdateProductZodSchema } from "../Schemas/zod/product.zod";
-
-
-
 
 
 export class AdminInputValidator {
@@ -78,6 +75,34 @@ export class AdminInputValidator {
                         material: [""],
                     }
                 }
+            }
+            return AdminInputDefault
+        }
+    }
+    validateAdminUpdateUserDataInput(data: AdminUpdateUserRequestBody): AdminUpdateUserReturnType {
+        try {
+            const Data = AdminUpdateUserDataReqBody.parse(data);
+            const AdminInput: AdminUpdateUserReturnType = {
+                success: true,
+                data: Data
+            }
+            return AdminInput
+        } catch (err) {
+            if (err instanceof z.ZodError) {
+                const validationError = fromZodError(err);
+                const errorObject = validationError.details.reduce((acc: Record<string, any>, error) => {
+                    acc[error.path.join('.')] = error.message;
+                    return acc;
+                }, {});
+                const AdminInputErrors: AdminUpdateUserReturnType = {
+                    success: false,
+                    data: errorObject as AdminUpdateUserRequestBody,
+                }
+                return AdminInputErrors
+            }
+            const AdminInputDefault: AdminUpdateUserReturnType = {
+                success: false,
+                data: {}
             }
             return AdminInputDefault
         }

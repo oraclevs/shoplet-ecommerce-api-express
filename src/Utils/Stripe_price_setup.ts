@@ -27,7 +27,7 @@ export async function syncProductsToStripe(productId:string|undefined = undefine
 
             // Update your product in the database with the Stripe price ID
             product.stripePriceId = price.id;
-            // product.UpdatedAt = Date.now();
+            product.UpdatedAt = new Date();
             await product.save();
         }
     }

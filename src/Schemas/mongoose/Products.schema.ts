@@ -89,8 +89,8 @@ const ProductSchema = new Schema<Products>({
         }
     },
     reviews: { type: [Object] },
-    CreatedAt: { type: Date, default: Date.now(), required: true },
-    UpdatedAt: { type: Date, default: Date.now(), required: true },
+    CreatedAt: { type: Date, default: new Date(), required: true },
+    UpdatedAt: { type: Date, default: new Date(), required: true },
 })
 
 export const Product = model<Products>('Product', ProductSchema)
