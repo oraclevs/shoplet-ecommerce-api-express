@@ -1,0 +1,1032 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "E-commerceShoplet",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://{{baseurl}}"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Admin"
+    },
+    {
+      "name": "Admin > Products"
+    },
+    {
+      "name": "Admin > AdminAuth"
+    },
+    {
+      "name": "Admin > Users"
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "User > Products"
+    },
+    {
+      "name": "User > User Auth"
+    }
+  ],
+  "paths": {
+    "/api/v1/products/admin/products": {
+      "get": {
+        "tags": [
+          "Admin > Products"
+        ],
+        "summary": "get all products",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "2"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Admin > Products"
+        ],
+        "summary": "Add new product",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Name": {
+                    "type": "string",
+                    "example": " Testpro"
+                  },
+                  "Description": {
+                    "type": "string",
+                    "example": " Some to block your stuffs andthif"
+                  },
+                  "Brand": {
+                    "type": "string",
+                    "example": " Oracle"
+                  },
+                  "Price": {
+                    "type": "string",
+                    "example": " 2.995"
+                  },
+                  "Category": {
+                    "type": "string",
+                    "example": " wrj"
+                  },
+                  "Stock_quantity": {
+                    "type": "string",
+                    "example": " 55"
+                  },
+                  "Attributes[Size][0]": {
+                    "type": "string",
+                    "example": " sm"
+                  },
+                  "Attributes[Color][0]": {
+                    "type": "string",
+                    "example": " Blue"
+                  },
+                  "Attributes[Material][0]": {
+                    "type": "string",
+                    "example": "iron"
+                  },
+                  "ProductImages": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/admin/products/6728b0b5328f8322d0d1efb4": {
+      "get": {
+        "tags": [
+          "Admin > Products"
+        ],
+        "summary": "get one product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Admin > Products"
+        ],
+        "summary": "Update a product",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "example": " Some to block your stuffs"
+                  },
+                  "brand": {
+                    "type": "string",
+                    "example": " Oracle"
+                  },
+                  "price": {
+                    "type": "string",
+                    "example": " 452.99"
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": " wrj"
+                  },
+                  "stock_quantity": {
+                    "type": "string",
+                    "example": " 55"
+                  },
+                  "ProductImages": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/admin/products/6728b0b5328f8322d0d1efb1": {
+      "delete": {
+        "tags": [
+          "Admin > Products"
+        ],
+        "summary": "delete a product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/auth/login": {
+      "post": {
+        "tags": [
+          "Admin > AdminAuth"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Email": "denton.mike888@gmail.com",
+                  "Password": "1234567890"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/auth/refreshToken": {
+      "get": {
+        "tags": [
+          "Admin > AdminAuth"
+        ],
+        "summary": "get refresh token",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "get users",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "IsEmailVerified",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": "true"
+          },
+          {
+            "name": "IsBlocked",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": "false"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/674a0708cee8658703fd7547": {
+      "get": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "get one user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "UpdateUserData",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Blocked": {
+                    "IsBlocked": false,
+                    "Type": "Permanently",
+                    "Reason": "Fruad Suspect",
+                    "Duration": {
+                      "from": "2024-11-30T08:04:00.577Z",
+                      "to": "2024-11-30T08:04:00.577Z"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/getuserwishlist/674a009d94db0ae3b2436259": {
+      "get": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "GetUserWishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/userorder/674a009d94db0ae3b2436259": {
+      "get": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "Get users orders",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "PaymentSuccessful",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": "false"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "Update User Orders",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "OrderId": "674aeb4f1645925cf3fc850a",
+                  "PaymentSuccessful": true,
+                  "Delivered": true,
+                  "ShippingDetails": {
+                    "address": {
+                      "city": "Awka",
+                      "country": "Nigeria",
+                      "line1": "where things de",
+                      "line2": "Nothing de that side ",
+                      "postal_code": "100101",
+                      "state": "Awka"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/mailusers": {
+      "post": {
+        "tags": [
+          "Admin > Users"
+        ],
+        "summary": "MailUsers",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Type": "toAll",
+                  "Subject": "Hello world 😊",
+                  "Message": "The is Message is for something "
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/product/6728b0b5328f8322d0d1efb4": {
+      "get": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "Get One product",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/cart": {
+      "get": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "get uset cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "save user cart",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Cart": [
+                    "6728b0b5328f8322d0d1efb1",
+                    "6728b0b5328f8322d0d1efb4"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/wishlist": {
+      "post": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "get wishlist",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Wishlist": [
+                    "6728b0b5328f8322d0d1efaf",
+                    "6728b0b5328f8322d0d1efb0"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/updateuserprofilepicture": {
+      "patch": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "UpdateUserProfilepicture",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profilePicture": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/updateuserprofiledetails": {
+      "patch": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "updateuserprofiledetails",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "PhoneNumber": "08111111111",
+                  "Address": {
+                    "Country": "Nigeria",
+                    "State": "lagos",
+                    "ZipCode": "100121",
+                    "Address": "2 ojasjr amnioha street"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/checkout": {
+      "post": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "User Checkout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Products": [
+                    {
+                      "id": "1",
+                      "quantity": 2
+                    },
+                    {
+                      "id": "2",
+                      "quantity": 4
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/wishlist/6728b0b5328f8322d0d1efb0": {
+      "delete": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "delete wishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/confirmorderreceived": {
+      "post": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "confirmorderreceived",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "OrderID": "674aeb4f1645925cf3fc850a",
+                  "Received": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/products/user/products": {
+      "get": {
+        "tags": [
+          "User > Products"
+        ],
+        "summary": "Get All products",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "2"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "lenovo"
+          },
+          {
+            "name": "min_price",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "20"
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "50"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Electronics"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "7"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/register": {
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "FullName": "Satorogojo",
+                  "Email": "occ.343softdev@gmail.com",
+                  "Password": "1234567890"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/refreshToken": {
+      "get": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Get refreshToken",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/login": {
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Email": "occ.softdev@gmail.com",
+                  "Password": "1234567890"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/logout": {
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Logout",
+        "requestBody": {
+          "content": {}
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/emailverification": {
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "email verification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Code": 840357
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

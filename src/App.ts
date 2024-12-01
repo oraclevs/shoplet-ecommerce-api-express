@@ -15,7 +15,9 @@ import StripeUserPaymentVerifications from './Routes/Users/stripe.Routes'
 import { CustomRequest } from './Types/Main';
 import AdminAuthRoute from './Routes/Admin/AdminAuth.routes'
 import { ProtectAdminRoutes } from './Middlewares/Protect.Admin.route';
-
+// import swaggerJSDoc from 'swagger-jsdoc'
+import SwaggerUi from 'swagger-ui-express';
+import SwaggerJson from './openapi.json'
 
 
 dotenv.config({ path: 'src/.env' })
@@ -68,8 +70,8 @@ app.use('/api/v1/admin/auth/refreshToken', AdminProductRoutes, AdminRefreshToken
 // admin route to manage users
 app.use('/api/v1/admin/users', ProtectAdminRoutes, AdminManageUsersRoute)
 
-
-
+//Documentation Route
+app.use('/api/v1/documentation', SwaggerUi.serve, SwaggerUi.setup(SwaggerJson))
 
 
 
