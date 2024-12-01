@@ -15,7 +15,7 @@ export const StripeUserPaymentVerification = async (req: CustomRequest, res: Cus
     let event: Stripe.Event;
     try {
         if (!req.rawBody) { throw new Error('Raw body not available'); }
-        console.log(req.rawBody)
+        
         // Use the raw body directly for signature verification
         event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
     } catch (err) {
@@ -31,7 +31,7 @@ export const StripeUserPaymentVerification = async (req: CustomRequest, res: Cus
             break;
         // ... handle other event types
         default:
-            console.log(`Unhandled event type ${event.type}`);
+            // console.log(`Unhandled event type ${event.type}`);
     }
     res.json({ received: true });
 };

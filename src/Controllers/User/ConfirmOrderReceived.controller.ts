@@ -8,7 +8,7 @@ export const ConfirmOrderReceived = async(req:CustomRequest,res:CustomResponse) 
     try {
         // validate request body
         const data = req.body
-        console.log(data)
+        
         if (!data.OrderID || !data.Received) {
             res.status(401).json({ error: "both OrderID and Received are required" })
             return

@@ -19,10 +19,10 @@ export const AdminLogin = async(req:CustomRequest,res:CustomResponse) => {
             res.status(401).json({ msg: "Invalid Credentials" })
             return
         }
-        // console.log(admin)
+        
         // check if the provided password is correct
         const IsPasswordCorrect = await new PasswordSecure().ComparePassWord(ReqData.data.Password, admin.Password)
-        console.log(IsPasswordCorrect)
+        
         if (!IsPasswordCorrect) { 
             res.status(401).json({ msg: "Invalid Credentials" })
             return

@@ -54,7 +54,7 @@ export const UpdateProduct = [
             if (req.body.stock_quantity) {
                 req.body.stock_quantity = parseFloat(req.body.stock_quantity.trim())
             }
-            console.log("req.body", req.body)
+            
             const { success, data } = new AdminInputValidator().validateCreateProductInput(req.body, "Update")
             
             if (!success) { 
@@ -75,9 +75,9 @@ export const UpdateProduct = [
                     CleanUpAfterUpload(file?.filename as string);
                 }
             }
-            console.log(ImagesUploadedToCloudinary)
+            
             // update the product in the database
-            console.log(success, data, "Zod Validator")
+          
             if (ImagesUploadedToCloudinary.length > 0) { 
                 await Product.updateOne({ _id: ProductId, }, { ...data, $push: { images: { $each: ImagesUploadedToCloudinary } } } ,{new:true})
             } else {

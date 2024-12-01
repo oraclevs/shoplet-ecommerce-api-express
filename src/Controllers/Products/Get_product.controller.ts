@@ -37,7 +37,7 @@ export const GetAllProducts = async (req: Request, res: Response) => {
         }
         // Search the the product in database
         const productsFromDb = await Product.find(query).skip(PageSkip).limit(PageLimit)
-        console.log(productsFromDb)
+     
         // response to the user.
         res.status(200).json({ products: productsFromDb, Length: productsFromDb.length })
     } catch (error) {
@@ -52,7 +52,7 @@ export const GetAllProducts = async (req: Request, res: Response) => {
 export const GetOneProduct = async (req: Request, res: Response) => {
     try {
         const ProductID = req.params.id
-        console.log(ProductID)
+        
         // validate product ID from req.params.id 
         const isProductIDvalid = Types.ObjectId.isValid(ProductID)
         if (!isProductIDvalid) { 

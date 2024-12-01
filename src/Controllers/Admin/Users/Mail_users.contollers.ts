@@ -6,7 +6,7 @@ import { ValidateObject_id } from "../../../Utils/ValidateObject_Id";
 
 
 
-export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
+export const MailUser = async (req: CustomRequest, res: CustomResponse) => {
     try {
         // check if the User Id is present and valid
         if (req.body.UserId) {
@@ -16,16 +16,16 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
                 From: "Custom"
             });
         }
-        console.log(req.body)
+        (req.body)
         // validate the request body from user
         const { success, data } = new AdminInputValidator().validateAdminMailUserInput(req.body);
-        if (!success) { 
+        if (!success) {
             throw data
         }
-        if (data.Type === 'toOne'&& data.UserId === undefined) {
+        if (data.Type === 'toOne' && data.UserId === undefined) {
             res.status(401).json({ error: "For type 'toOne' UserId is required" })
             return
-        } else if (data.Type === 'toMany'&& data.ListOfUserIds === undefined) {
+        } else if (data.Type === 'toMany' && data.ListOfUserIds === undefined) {
             res.status(401).json({ error: "For type 'toMany' ListOfUserIds is required" })
             return
         }
@@ -33,10 +33,10 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
         if (data.Type === "toOne") {
             const user = await User.findById(data.UserId, { Email: 1, FullName: 1 })
             if (!user) {
-                res.status(401).json({ error: "No User found with ID"})
+                res.status(401).json({ error: "No User found with ID" })
                 return
             }
-            console.log(user)
+            (user)
             await new EmailSender().CustomEmail({
                 Receiver: user.Email,
                 UserName: user.FullName,
@@ -48,8 +48,8 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
         } else if (data.Type === 'toMany' && data.ListOfUserIds != undefined) {
             const UsersFromDB = []
             const ListOfUserNotFound = []
-            for ( const userID of data.ListOfUserIds) {
-                console.log(userID, "userID from for loop")
+            for (const userID of data.ListOfUserIds) {
+                
                 const user = await User.findById(userID, { Email: 1, FullName: 1 })
                 if (!user) {
                     ListOfUserNotFound.push(userID)
@@ -64,7 +64,7 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
                 })
                 return
             }
-            for (const User of UsersFromDB){
+            for (const User of UsersFromDB) {
                 await new EmailSender().CustomEmail({
                     Receiver: User.Email,
                     UserName: User.FullName,
@@ -77,8 +77,7 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
         }
         if (data.Type === 'toAll') {
             const Users = await User.find({}, { Email: 1, FullName: 1 })
-            console.log(Users)
-            for (const User of Users) { 
+            for (const User of Users) {
                 await new EmailSender().CustomEmail({
                     Receiver: User.Email,
                     UserName: User.FullName,
@@ -86,13 +85,13 @@ export const MailUser = async(req:CustomRequest,res:CustomResponse) => {
                     Message: data.Message,
                 })
             }
-            res.status(200).json({success:true,msg:"Email sent successfully to All Users"});
+            res.status(200).json({ success: true, msg: "Email sent successfully to All Users" });
         }
     } catch (error) {
         if (error instanceof Error) {
-            res.status(500).json({error: error.message});
+            res.status(500).json({ error: error.message });
         } else {
-            res.status(500).json({ error});
+            res.status(500).json({ error });
         }
     }
 }

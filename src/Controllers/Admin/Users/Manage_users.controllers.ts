@@ -19,7 +19,7 @@ export const GetUsers = async (req: CustomRequest, res: CustomResponse) => {
         const pageNumber = parseInt(page as string) || 1;
         const PageLimit = parseInt(limit as string) || 10;
         const PageSkip = (pageNumber - 1) * PageLimit;
-        console.log(PageSkip)
+        
         // validating the req.query
         if (IsEmailVerified) {
             if (IsEmailVerified.toString().toLowerCase() === "true") {
@@ -36,7 +36,7 @@ export const GetUsers = async (req: CustomRequest, res: CustomResponse) => {
                 query.Blocked = { IsBlocked: false };
             }
         }
-        console.log(query)
+       
 
         // Search the the product in database
         const UserFromDb = await User.find(
@@ -48,7 +48,7 @@ export const GetUsers = async (req: CustomRequest, res: CustomResponse) => {
             Password: 0,
         }
         ).skip(PageSkip).limit(PageLimit)
-        console.log(UserFromDb)
+        
         res.status(200).json({ Users: UserFromDb, length: UserFromDb.length })
     } catch (error) {
         if (error instanceof Error) {
@@ -61,7 +61,7 @@ export const GetUsers = async (req: CustomRequest, res: CustomResponse) => {
 export const GetOneUser = async (req: CustomRequest, res: CustomResponse) => {
     try {
         const UserID = req.params.id
-        console.log(UserID)
+        
         // validate product ID from req.params.id 
         const isUserIDvalid = Types.ObjectId.isValid(UserID)
         if (!isUserIDvalid) {
@@ -109,11 +109,11 @@ export const UpdateUser = async (req: CustomRequest, res: CustomResponse) => {
             req.body.Blocked.Duration.to = new Date(req.body.Blocked.Duration.to)
             req.body.Blocked.Duration.from = new Date(req.body.Blocked.Duration.from)
         }
-        console.log(req.body)
+        
         // validate user input
         const { success, data } = new AdminInputValidator().validateAdminUpdateUserDataInput(req.body)
 
-        console.log(success, data)
+        
         if (!success) {
             throw data
         }

@@ -18,9 +18,9 @@ export async function generateAndSaveVerificationCode(userId: string) {
 export const GetNewVerificationCode = async (req: CustomRequest, res: CustomResponse) => {
     try {
         const UserID = req.UserID as string
-        console.log(UserID)
+        
         const UserEmailFromDB = await User.findById(UserID, { Email: 1, _id: 0, FullName: 1 })
-        console.log(UserEmailFromDB)
+       
         const Email = UserEmailFromDB?.Email as string
         const UserName = UserEmailFromDB?.FullName as string
         const Code = await generateAndSaveVerificationCode(UserID)
@@ -28,7 +28,7 @@ export const GetNewVerificationCode = async (req: CustomRequest, res: CustomResp
         await new EmailSender().ActivationEmail(EmailDetails)
         res.status(200).json({ success: true, msg: "Verification code has been sent to your email" })
     } catch (error) {
-        console.log(error)
+        
         res.status(500).json({ success: false, msg: error })
     }
 }
@@ -36,12 +36,12 @@ export const VerifyEmail = async (req: CustomRequest, res: CustomResponse) => {
     try {
         const UserID = req.UserID as string
         const Data = new UserAuthInputValidator().EmailVerificationInput(req.body.Code)
-        console.log(UserID, Data)
+        
         if (!Data.success) {
             throw Data.ErrorMessage
         }
         const UserCodeFromDB = await VerificationCode.findOne({ userId: UserID }, { code: 1, _id: 0 })
-        console.log(UserCodeFromDB)
+        
         if (UserCodeFromDB === null) {
             res.status(401).json({ success: false, msg: "Verification code has expired. Request a new verification code. " })
             return

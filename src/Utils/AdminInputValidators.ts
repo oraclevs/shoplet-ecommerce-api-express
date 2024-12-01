@@ -40,7 +40,7 @@ export class AdminInputValidator {
     validateCreateProductInput(data: ProductReqBodyType|UpdateProductReqBodyType,For:"Add"|"Update"): ProductReqBodyReturnType|UpdateProductReqBodyReturnType {
         try {
             const Data = For === "Add" ? ProductZodSchema.parse(data) : UpdateProductZodSchema.parse(data);
-            console.log(Data)
+            
             const AdminInput: ProductReqBodyReturnType|UpdateProductReqBodyReturnType = {
                 success: true,
                 data: Data

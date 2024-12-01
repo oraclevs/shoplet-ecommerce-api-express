@@ -18,7 +18,7 @@ export const ValidateObject_id = (
     Options: ValidateObject_idType = Default
 ) => {
     const ProductID = Options.From === "Params" ? req.params.id : Options.ID
-    console.log(ProductID)
+    
     // validate product ID from req.params.id 
     const isProductIDvalid = Types.ObjectId.isValid(ProductID)
 

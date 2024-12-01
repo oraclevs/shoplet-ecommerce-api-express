@@ -29,9 +29,9 @@ export class EmailSender {
                 html, // html body
             }
             const info = await this.transporter.sendMail(Mail);
-            console.log("Message sent: %s", info.messageId);
+            return info
         } catch (err) { 
-            console.log(err, 'error sending email')
+            return err
         }
     }
 
@@ -46,10 +46,10 @@ export class EmailSender {
                 html, // html body
             }
             const info = await this.transporter.sendMail(Mail);
-            console.log("Message sent: %s", info.messageId);
+            return info
 
         } catch (err) {
-            console.log(err, 'error sending email')
+            return err
         }
     }
 
@@ -64,9 +64,10 @@ export class EmailSender {
                 html, // html body
             }
             const info = await this.transporter.sendMail(Mail);
-            console.log("Message sent: %s", info.messageId);
+            return info
         } catch (err) {
-            console.log(err, 'error sending email')
+           
+            return err
         }
     }
     async CustomEmail({ Receiver, Subject, UserName, Message }: CustomEmailP) {
@@ -79,9 +80,9 @@ export class EmailSender {
                 html, // html body
             }
             const info = await this.transporter.sendMail(Mail);
-            console.log("Message sent: %s", info.messageId);
+           return info
         } catch (err) {
-            console.log(err, 'error sending email')
+            return err
         }
     }
 }

@@ -14,9 +14,9 @@ export const DeleteProductFromDb = async (req:CustomRequest,res:CustomResponse) 
             return
         }
         // find product from database
-        console.log(ProductId)
-        const DeletedProduct = await Product.deleteOne({ _id: ProductId })
-        console.log(DeletedProduct)
+        
+       await Product.deleteOne({ _id: ProductId })
+        
         res.status(200).json({success:true, message:"Product deleted successfully"});
     } catch (error) {
         if (error instanceof Error) {

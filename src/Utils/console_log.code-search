@@ -1,0 +1,67 @@
+# Query: console.log
+
+71 results - 21 files
+
+src\App.ts:
+  80:     console.log(`running on port ${PORT}`)
+  81: }).on('error', (error) => console.log(error.message))
+
+src\Controllers\Admin\AdminLogin.controller.ts:
+  22:         
+
+src\Controllers\Admin\Users\Mail_users.contollers.ts:
+  19:         
+
+src\Controllers\Admin\Users\Manage_users.controllers.ts:
+   22:         
+
+src\Controllers\Products\Add_Product.controllers.ts:
+  51:         
+
+src\Controllers\Products\Delete_product.controller.ts:
+  17:        
+
+src\Controllers\Products\Get_product.controller.ts:
+  40:         
+
+src\Controllers\Products\Update_product.controller.ts:
+  57:             
+
+src\Controllers\User\ConfirmOrderReceived.controller.ts:
+  11:         
+
+src\Controllers\User\EmailVerification.controllers.ts:
+  21:        
+
+src\Controllers\User\StripePayment.contollers.ts:
+  18:         
+
+src\Controllers\User\UserCheckout.controllers.ts:
+   19:       
+
+src\Controllers\User\UserCheckoutComplete.controller.ts:
+  42:  
+
+src\Controllers\User\UserRegister.controller.ts:
+  23:         
+
+src\Controllers\User\Wishlist.contollers.ts:
+  30:        
+
+src\Db\ConnectToDB.ts:
+  7:      
+
+src\Email\SendMail.ts:
+  32:        
+
+src\Utils\AdminInputValidators.ts:
+  43:           
+
+src\Utils\DeleteFiles.ts:
+  17:          
+
+src\Utils\User_Ip_Details.ts:
+  17:            ;
+
+src\Utils\ValidateObject_Id.ts:
+  21:    

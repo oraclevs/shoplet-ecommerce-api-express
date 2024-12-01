@@ -39,6 +39,6 @@ export const handleCheckoutSessionCompleted = async(session: Stripe.Checkout.Ses
         UserName: Details.CustomerEmail as string,
         Message:"Your payment has been Received successfully you will receive your order soon",
     })
-    console.log(JSON.stringify({UserDetails:Details},null,4))
+    
     // You can add your business logic here to process the order
 };

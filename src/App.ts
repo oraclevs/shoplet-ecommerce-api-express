@@ -7,11 +7,10 @@ import UserProductRoutes from './Routes/Products/User/Products.Routes'
 import AdminProductRoutes from './Routes/Products/Admin/products.routes'
 import AdminRefreshTokenRoute from './Routes/Admin/Admin_refreshtoken.routes'
 import AdminManageUsersRoute from './Routes/Admin/Users/Admin_users.routes'
-// import { rateLimit } from 'express-rate-limit'
-// import cors from 'cors'
+import { rateLimit } from 'express-rate-limit'
+import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import { ProtectUserRoutes } from './Middlewares/Protect.User.route';
-// import { syncProductsToStripe } from './Utils/Stripe_price_setup';
 import StripeUserPaymentVerifications from './Routes/Users/stripe.Routes'
 import { CustomRequest } from './Types/Main';
 import AdminAuthRoute from './Routes/Admin/AdminAuth.routes'
@@ -26,13 +25,13 @@ const PORT: number = parseInt(process.env.PORT as string) || 5000
 const app = Express();
 
 // 
-// const limiter = rateLimit({
-// 	windowMs: 15 * 60 * 1000, // 15 minutes
-// 	limit: 150, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-// 	standardHeaders: 'draft-7', 
-// 	legacyHeaders: false, 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 150, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7', 
+	legacyHeaders: false, 
 
-// })
+})
 
 
 // Middlewares
@@ -44,8 +43,8 @@ app.use(Express.json(
         }
     }
 ))
-// app.use(limiter)
-// app.use(cors({origin:"",credentials:true}))
+app.use(limiter)
+app.use(cors({origin:"",credentials:true}))
 app.use(cookieParser())
 
 

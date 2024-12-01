@@ -20,7 +20,7 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         if (!success) {
             throw data
         }
-        console.log(data, 'Data')
+        
         // checking if user with the same email already exist in the database
         const user = await User.findOne({ Email: data.Email }, 'Email FullName ')
         // if we have a user with the email we return the error response
@@ -30,7 +30,7 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         }
         // creating new user
         const HashedPassword = await new PasswordSecure().HashPassword(data.Password)
-        console.log(HashedPassword, 'hashed password')
+      
         const NewUser = new User({
             FullName: data.FullName,
             Email: data.Email,
@@ -44,15 +44,13 @@ export const RegisterUser = async (req: Request<{}, {}, UserRegisterRequestBody>
         // getting the user id 
         const UserFromDB = await User.findOne({ Email: data.Email }, { _id: 1, FullName: 1, Email: 1 })
         const UserId = UserFromDB?._id.toString() as string
-        console.log(UserId, 'userId')
-        //
-        console.log(user)
-        console.log(UserFromDB?.FullName)
+        
+      
         // Creating the Access and Refresh Token
         const RefreshToken = new JwtToken().Sign({ Type: 'RefreshToken', Data: { UserId },Role:'User' }, REFRESH_TOKEN_EXPIRE_TIME as string)
         await User.findByIdAndUpdate(UserId, { AuthToken: RefreshToken })
         const AccessToken = new JwtToken().Sign({ Type: 'AccessToken', Data: { UserId },Role:'User' }, ACCESS_TOKEN_EXPIRE_TIME as string)
-        console.log(RefreshToken, AccessToken)
+       
         //generate the Email verification code and save to the database
         const CodeFromDB = await generateAndSaveVerificationCode(UserId)
         //  send email verification and Welcome Email

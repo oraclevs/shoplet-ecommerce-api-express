@@ -12,9 +12,10 @@ export const CleanUpAfterUpload = (FileName:string) => {
     // Delete the file
     fs.unlink(filePath, (err) => {
         if (err) {
-            console.error('Error deleting the file:', err);
+            return `Error deleting the file:${err}`
+            console.error('', err);
         } else {
-            console.log('File deleted successfully');
+            return "File deleted successfully"
         }
     });
 

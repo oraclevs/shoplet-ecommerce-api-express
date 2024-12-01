@@ -48,9 +48,7 @@ export const AddProductToDb = [
             if (!success) {
                 throw data
             }
-            console.log(ImagesArray?.length)
-            console.log(req.body)
-            console.log(data)
+            
             // uploading the product Images to cloudinary
             const ImagesUploadedToCloudinary = []
             if (Array.isArray(ImagesArray)) {    
@@ -65,7 +63,7 @@ export const AddProductToDb = [
                     CleanUpAfterUpload(file?.filename as string)
                 }
             }
-            console.log(ImagesUploadedToCloudinary)
+           
             const DateCreated  = new Date() 
             await new Product({
                 name: data.name,
@@ -79,7 +77,7 @@ export const AddProductToDb = [
                 CreatedAt: DateCreated,
             }).save()
             const newProduct = await Product.findOne({ CreatedAt: DateCreated }, { _id: 1 })
-            console.log(newProduct)
+            
             if (newProduct) {
                 syncProductsToStripe(newProduct._id.toString())
             }
