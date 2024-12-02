@@ -10,5 +10,5 @@ const Route = Router()
 Route.post('/register',RegisterUser)
 Route.post('/login', LoginUser)
 Route.post('/logout',LogoutUser)
-Route.get('/refreshToken', GenerateRefreshToken)
+Route.get('/refresh-token', GenerateRefreshToken)
 export default Route

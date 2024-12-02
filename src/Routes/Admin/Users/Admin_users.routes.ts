@@ -10,10 +10,10 @@ const Route = Router()
 
 Route.route('/').get(GetUsers)
 Route.route('/:id').get(GetOneUser).patch(UpdateUser)
-Route.route('/getuserwishlist/:id').get(GetUsersWishList)
-Route.route('/getusercart/:id').get(GetUsersCartList)
-Route.route('/userorder/:id').get(GetUsersOrders).patch(UpdateUserOrder)
-Route.route('/mailusers').post(MailUser)
+Route.route('/user-wishlist/:id').get(GetUsersWishList)
+Route.route('/user-cart/:id').get(GetUsersCartList)
+Route.route('/user-order/:id').get(GetUsersOrders).patch(UpdateUserOrder)
+Route.route('/mail-users').post(MailUser)
 
 
 

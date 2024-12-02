@@ -8,7 +8,7 @@ const Route = Router()
 
 // get/update/delete products
 Route.route('/products').get(GetAllProducts).post(AddProductToDb)
-Route.route('/products/:id').get(GetOneProduct).patch(UpdateProduct).delete(DeleteProductFromDb)
+Route.route('/product/:id').get(GetOneProduct).patch(UpdateProduct).delete(DeleteProductFromDb)
 
 
 

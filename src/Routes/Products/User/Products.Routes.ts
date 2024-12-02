@@ -5,7 +5,7 @@ const Route = Router()
 
 Route.route('/products').get(GetAllProducts)
 Route.route('/product/:id').get(GetOneProduct)
-Route.route('/products/reviews/:id').post()
+Route.route('/product/reviews/:id').post()
 
 
 export default Route 

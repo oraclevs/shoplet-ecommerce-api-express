@@ -60,13 +60,14 @@ app.use('/api/v1/user', ProtectUserRoutes, UserRoutes)
 app.use('/api/v1/products/user', ProtectUserRoutes, UserProductRoutes)
 // Route for Stripe Webhooks(User)
 app.use('/api/v1/StripeUserPaymentVerification', StripeUserPaymentVerifications)
+// admin get refreshed token for user
 
 // ADMIN ROUTES
 app.use('/api/v1/admin/auth', AdminAuthRoute)
 // admin product routes
 app.use('/api/v1/products/admin', ProtectAdminRoutes, AdminProductRoutes)
 // admin get refreshed token for admin
-app.use('/api/v1/admin/auth/refreshToken', AdminProductRoutes, AdminRefreshTokenRoute)
+app.use('/api/v1/admin/auth/refresh-token', AdminProductRoutes, AdminRefreshTokenRoute)
 // admin route to manage users
 app.use('/api/v1/admin/users', ProtectAdminRoutes, AdminManageUsersRoute)
 

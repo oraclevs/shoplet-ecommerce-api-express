@@ -30,6 +30,8 @@ npm run dev
 ```ts
 npm run build
 ```
+5. Visit this endpoint: api/v1/documentation for the API documentation
+
 
 # Feel free to point out any problem or features that the api may need THANKS.
 

@@ -53,11 +53,45 @@ export const SaveCart = async (req: CustomRequest, res: CustomResponse) => {
             UserId: UserID,
             Cart: ValidProductID,
         }).save()
-        res.status(200).json({ success: true, msg: "Cat has been save successfully " });
+        res.status(200).json({ success: true, msg: "Cart has been save successfully " });
     } catch (error) {
         if (error instanceof Error) {
             res.status(500).json({ error: error.message });
         }
         res.status(500).json({ error: error });
+    }
+}
+
+
+export const DeleteCart = async(req: CustomRequest, res: CustomResponse) => { 
+    try {
+        
+        // get the id of the Cart
+        const CartId = req.params.id
+        // validate the Cart id to make sure it is valid
+        const isCartIDvalid = Types.ObjectId.isValid(CartId)
+        if (!isCartIDvalid) {
+            res.status(404).json({ Success: false, Error: "Cart ID is not valid" })
+            return
+        }
+        // find Cart from database
+
+        const UserCartFromDB = await UsersCart.findOne({ UserId: req.UserID })
+        const UserCartArray = UserCartFromDB?.Cart
+        const NewUserCart = UserCartArray?.filter((ID) => ID != CartId)
+        if (!NewUserCart) {
+            res.status(404).json({ Error: "Cart not found" })
+            return
+        }
+        await UsersCart.updateOne({ UserId: req.UserID }, { Cart: NewUserCart }, { new: true })
+
+        res.status(200).json({ success: true, msg: "Cart has been deleted successfully " });
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ error: error.message });
+        } else {
+            
+            res.status(500).json({ error: error });
+        }
     }
 }

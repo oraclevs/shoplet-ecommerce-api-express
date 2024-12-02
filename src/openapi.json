@@ -1,15 +1,16 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "E-commerceShoplet",
+    "title": "Shoplet E-commerce REST API",
+    "description": "Shoplet , a fast feature rich Express e-commerce API.\n\nBuilt with :\n\n1. TypeScript\n    \n2. Express\n    \n3. MongoDb for Database",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://{{baseurl}}"
+      "url":"http://localhost:3000"
     },
-    {
-      "url": "http://localhost:3000"
+     {
+      "url":" http://{{baseurl}}"
     }
   ],
   "components": {
@@ -22,25 +23,48 @@
   },
   "tags": [
     {
-      "name": "Admin"
+      "name": "Admin",
+      "description": "Admin Endpoints"
     },
     {
-      "name": "Admin > Products"
+      "name": "Admin > Products",
+      "description": "Product Endpoint that allow the admin to:\n\n1. Create a products.\n    \n2. Get products\n    \n3. Delete products."
     },
     {
-      "name": "Admin > AdminAuth"
+      "name": "Admin > AdminAuth",
+      "description": "Admin Authentication Endpoint that allow the admin to:\n\n1. Login.\n    \n2. Get Refresh Token."
     },
     {
-      "name": "Admin > Users"
+      "name": "Admin > Users",
+      "description": "Admin Manage User Endpoint that allows the admin to :\n\n1. Get Users\n    \n2. Update Users data\n    \n3. Get Users Wishlist\n    \n4. Get User Cart\n    \n5. Get User Orders\n    \n6. Update Users Order\n    \n7. Send Email to User"
     },
     {
-      "name": "User"
+      "name": "User",
+      "description": "Users Endpoints"
     },
     {
-      "name": "User > Products"
+      "name": "User > Products",
+      "description": "Product Endpoint that allows users to read the products from the database."
     },
     {
-      "name": "User > User Auth"
+      "name": "User > Cart",
+      "description": "Cart Endpoints that allows users to:\n\n1. Save their cart for future refrence.\n    \n2. Delete their cart if not needed.\n    \n3. Read their cart from the database"
+    },
+    {
+      "name": "User > User Auth",
+      "description": "Authentication endpoint for :\n\n1. Registration.\n    \n2. Login.\n    \n3. Logout.\n    \n4. Get email verification code.\n    \n5. Send email verification code.\n    \n6. Get refresh token."
+    },
+    {
+      "name": "User > Wishlist",
+      "description": "WishlistEndpoints that allows users to:\n\n1. Save their wishlist for future refrence.\n    \n2. Delete their wishlist if not needed.\n    \n3. Read their wishlist from the database."
+    },
+    {
+      "name": "User > Profile",
+      "description": "Profile Endpoints that allows users to:\n\n1. Update their profile picture\n    \n2. Update their profile data"
+    },
+    {
+      "name": "User > Check out",
+      "description": "Check out and Confirm Order Endpoints that allows users to:\n\n1. Check out and get payment link to make their paymet.\n    \n2. Confirm if they have received their order."
     }
   ],
   "paths": {
@@ -49,7 +73,7 @@
         "tags": [
           "Admin > Products"
         ],
-        "summary": "get all products",
+        "summary": "Get  products",
         "security": [
           {
             "bearerAuth": []
@@ -63,6 +87,46 @@
               "type": "integer"
             },
             "example": "2"
+          },
+          {
+            "name": "brand",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "lenovo"
+          },
+          {
+            "name": "min_price",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "20"
+          },
+          {
+            "name": "max_price",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "50"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Electronics"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "7"
           }
         ],
         "responses": {
@@ -145,12 +209,12 @@
         }
       }
     },
-    "/api/v1/products/admin/products/6728b0b5328f8322d0d1efb4": {
+    "/api/v1/products/admin/product/6728b0b5328f8322d0d1efb4": {
       "get": {
         "tags": [
           "Admin > Products"
         ],
-        "summary": "get one product",
+        "summary": "Get product",
         "security": [
           {
             "bearerAuth": []
@@ -220,12 +284,12 @@
         }
       }
     },
-    "/api/v1/products/admin/products/6728b0b5328f8322d0d1efb1": {
+    "/api/v1/products/admin/product/6728b0b5328f8322d0d1efb1": {
       "delete": {
         "tags": [
           "Admin > Products"
         ],
-        "summary": "delete a product",
+        "summary": "Delete a product",
         "security": [
           {
             "bearerAuth": []
@@ -270,12 +334,12 @@
         }
       }
     },
-    "/api/v1/admin/auth/refreshToken": {
+    "/api/v1/admin/auth/refresh-token": {
       "get": {
         "tags": [
           "Admin > AdminAuth"
         ],
-        "summary": "get refresh token",
+        "summary": "Get refresh token",
         "security": [
           {
             "bearerAuth": []
@@ -390,7 +454,7 @@
         }
       }
     },
-    "/api/v1/admin/users/getuserwishlist/674a009d94db0ae3b2436259": {
+    "/api/v1/admin/users/user-wishlist/674a009d94db0ae3b2436259": {
       "get": {
         "tags": [
           "Admin > Users"
@@ -427,12 +491,12 @@
         }
       }
     },
-    "/api/v1/admin/users/userorder/674a009d94db0ae3b2436259": {
+    "/api/v1/admin/users/user-order/674a009d94db0ae3b2436259": {
       "get": {
         "tags": [
           "Admin > Users"
         ],
-        "summary": "Get users orders",
+        "summary": "Get Users Orders",
         "security": [
           {
             "bearerAuth": []
@@ -501,7 +565,7 @@
         }
       }
     },
-    "/api/v1/admin/users/mailusers": {
+    "/api/v1/admin/users/mail-users": {
       "post": {
         "tags": [
           "Admin > Users"
@@ -536,296 +600,12 @@
         }
       }
     },
-    "/api/v1/products/product/6728b0b5328f8322d0d1efb4": {
-      "get": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "Get One product",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/cart": {
-      "get": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "get uset cart",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "save user cart",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "Cart": [
-                    "6728b0b5328f8322d0d1efb1",
-                    "6728b0b5328f8322d0d1efb4"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/wishlist": {
-      "post": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "get wishlist",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "Wishlist": [
-                    "6728b0b5328f8322d0d1efaf",
-                    "6728b0b5328f8322d0d1efb0"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/updateuserprofilepicture": {
-      "patch": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "UpdateUserProfilepicture",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "profilePicture": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/updateuserprofiledetails": {
-      "patch": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "updateuserprofiledetails",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "PhoneNumber": "08111111111",
-                  "Address": {
-                    "Country": "Nigeria",
-                    "State": "lagos",
-                    "ZipCode": "100121",
-                    "Address": "2 ojasjr amnioha street"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/checkout": {
-      "post": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "User Checkout",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "Products": [
-                    {
-                      "id": "1",
-                      "quantity": 2
-                    },
-                    {
-                      "id": "2",
-                      "quantity": 4
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/wishlist/6728b0b5328f8322d0d1efb0": {
-      "delete": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "delete wishlist",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/user/confirmorderreceived": {
-      "post": {
-        "tags": [
-          "User > Products"
-        ],
-        "summary": "confirmorderreceived",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "OrderID": "674aeb4f1645925cf3fc850a",
-                  "Received": true
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
     "/api/v1/products/user/products": {
       "get": {
         "tags": [
           "User > Products"
         ],
-        "summary": "Get All products",
+        "summary": "Get  products",
         "security": [
           {
             "bearerAuth": []
@@ -891,26 +671,17 @@
         }
       }
     },
-    "/api/v1/users/auth/register": {
-      "post": {
+    "/api/v1/products/user/product/6728b0b5328f8322d0d1efaf": {
+      "get": {
         "tags": [
-          "User > User Auth"
+          "User > Products"
         ],
-        "summary": "register",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "example": {
-                  "FullName": "Satorogojo",
-                  "Email": "occ.343softdev@gmail.com",
-                  "Password": "1234567890"
-                }
-              }
-            }
+        "summary": "Get Product",
+        "security": [
+          {
+            "bearerAuth": []
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -921,7 +692,83 @@
         }
       }
     },
-    "/api/v1/users/auth/refreshToken": {
+    "/api/v1/user/cart/6728b0b5328f8322d0d1efb4": {
+      "delete": {
+        "tags": [
+          "User > Cart"
+        ],
+        "summary": "Delete User Cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/cart": {
+      "post": {
+        "tags": [
+          "User > Cart"
+        ],
+        "summary": "Save User Cart",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Cart": [
+                    "6728b0b5328f8322d0d1efb1",
+                    "6728b0b5328f8322d0d1efb4"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User > Cart"
+        ],
+        "summary": "Get User Cart",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/refresh-token": {
       "get": {
         "tags": [
           "User > User Auth"
@@ -932,6 +779,88 @@
             "bearerAuth": []
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/email-verification": {
+      "get": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Get email verification code",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Send email verification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Code": 840357
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/auth/register": {
+      "post": {
+        "tags": [
+          "User > User Auth"
+        ],
+        "summary": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "FullName": "Satorogojo",
+                  "Email": "satorogojo@gmail.com",
+                  "Password": "1234567890"
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful response",
@@ -954,8 +883,8 @@
               "schema": {
                 "type": "object",
                 "example": {
-                  "Email": "occ.softdev@gmail.com",
-                  "Password": "1234567890"
+                  "FullName": "Satorogojo",
+                  "Email": "satorogojo@gmail.com"
                 }
               }
             }
@@ -995,19 +924,217 @@
         }
       }
     },
-    "/api/v1/user/emailverification": {
+    "/api/v1/user/wishlist": {
       "post": {
         "tags": [
-          "User > User Auth"
+          "User > Wishlist"
         ],
-        "summary": "email verification",
+        "summary": "Save User Wishlist",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "example": {
-                  "Code": 840357
+                  "Wishlist": [
+                    "6728b0b5328f8322d0d1efaf",
+                    "6728b0b5328f8322d0d1efb0"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User > Wishlist"
+        ],
+        "summary": "Get User Wishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/wishlist/6728b0b5328f8322d0d1efb0": {
+      "delete": {
+        "tags": [
+          "User > Wishlist"
+        ],
+        "summary": "Delete User Wishlist",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/update-user-profile-picture": {
+      "patch": {
+        "tags": [
+          "User > Profile"
+        ],
+        "summary": "UpdateUserProfilePicture",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "profilePicture": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/update-user-profile-details": {
+      "patch": {
+        "tags": [
+          "User > Profile"
+        ],
+        "summary": "UpdateUserProfileDetails",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "PhoneNumber": "08111111111",
+                  "Address": {
+                    "Country": "Nigeria",
+                    "State": "lagos",
+                    "ZipCode": "100121",
+                    "Address": "2 ojasjr amnioha street"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/confirm-order-received": {
+      "post": {
+        "tags": [
+          "User > Check out"
+        ],
+        "summary": "Confirm Order Received",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "OrderID": "674aeb4f1645925cf3fc850a",
+                  "Received": true
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/user/checkout": {
+      "post": {
+        "tags": [
+          "User > Check out"
+        ],
+        "summary": "User Checkout",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "Products": [
+                    {
+                      "id": "6728b0b5328f8322d0d1efaf",
+                      "quantity": 25
+                    },
+                    {
+                      "id": "6728b0b5328f8322d0d1efb0",
+                      "quantity": 9
+                    },
+                    {
+                      "id": "6728b0b5328f8322d0d1efb0",
+                      "quantity": 1
+                    }
+                  ]
                 }
               }
             }

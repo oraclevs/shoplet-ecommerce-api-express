@@ -19,8 +19,11 @@ export const GetNewVerificationCode = async (req: CustomRequest, res: CustomResp
     try {
         const UserID = req.UserID as string
         
-        const UserEmailFromDB = await User.findById(UserID, { Email: 1, _id: 0, FullName: 1 })
-       
+        const UserEmailFromDB = await User.findById(UserID, { Email: 1, _id: 0, FullName: 1,IsEmailVerified: 1 })
+        if (UserEmailFromDB?.IsEmailVerified) {
+            res.status(200).json({ success: true, msg: "Email is already Verified" })
+            return
+       }
         const Email = UserEmailFromDB?.Email as string
         const UserName = UserEmailFromDB?.FullName as string
         const Code = await generateAndSaveVerificationCode(UserID)
