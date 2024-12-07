@@ -15,10 +15,10 @@ import StripeUserPaymentVerifications from './Routes/Users/stripe.Routes'
 import { CustomRequest } from './Types/Main';
 import AdminAuthRoute from './Routes/Admin/AdminAuth.routes'
 import { ProtectAdminRoutes } from './Middlewares/Protect.Admin.route';
-// import swaggerJSDoc from 'swagger-jsdoc'
 import SwaggerUi from 'swagger-ui-express';
 import SwaggerJson from './openapi.json'
-
+import jsonSyntaxErrorHandler  from './Middlewares/SyntaxError';
+import notFoundHandler from './Middlewares/handleNotFound';
 
 dotenv.config({ path: 'src/.env' })
 
@@ -28,10 +28,10 @@ const app = Express();
 
 // 
 const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 150, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7', 
-	legacyHeaders: false, 
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 150, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
 
 })
 
@@ -45,8 +45,10 @@ app.use(Express.json(
         }
     }
 ))
+app.use(notFoundHandler)
+app.use(jsonSyntaxErrorHandler)
 app.use(limiter)
-app.use(cors({origin:"",credentials:true}))
+app.use(cors({ origin: "", credentials: true }))
 app.use(cookieParser())
 
 
