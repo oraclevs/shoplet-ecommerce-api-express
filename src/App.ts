@@ -45,12 +45,11 @@ app.use(Express.json(
         }
     }
 ))
-app.use(notFoundHandler)
+
 app.use(jsonSyntaxErrorHandler)
 app.use(limiter)
 app.use(cors({ origin: "", credentials: true }))
 app.use(cookieParser())
-
 
 
 // USER ROUTES
@@ -76,7 +75,7 @@ app.use('/api/v1/admin/users', ProtectAdminRoutes, AdminManageUsersRoute)
 //Documentation Route
 app.use('/api/v1/documentation', SwaggerUi.serve, SwaggerUi.setup(SwaggerJson))
 
-
+app.use(notFoundHandler)
 
 
 // Server Start up 
